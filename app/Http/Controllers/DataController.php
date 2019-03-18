@@ -858,7 +858,7 @@ class DataController extends Controller
                     'required',
                     Rule::unique('data_undangans')->where('active', 1),
                 ],
-                'bank_name' => 'required',
+                // 'bank_name' => 'required',
                 'branch' => 'required',
                 'country' => 'required',
                 'birth_date' => 'required',
@@ -1182,13 +1182,14 @@ class DataController extends Controller
     {
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
-
+        $id=DataUndangan::where('code', $request->code)->first();
+        // dd($request->phone);
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
             'phone' => [
                 'required',
-                Rule::unique('data_undangans')->whereNot('id', $request->get('id'))->where('active', 1),
+                Rule::unique('data_undangans')->whereNot('id', $id->id)->where('active', 1),
             ],
             'birth_date' => 'required',
         ]);
@@ -1204,13 +1205,24 @@ class DataController extends Controller
             return response()->json(['errors'=>$arr_Hasil]);
         }
         else {
-            $data = $request->only('name', 'birth_date', 'address', 'phone');
+            $id=DataUndangan::where('code', $request->code)->first();
+            $data = $request->only('name', 'birth_date', 'address', 'phone','registration_date');
             $data['name'] = strtoupper($data['name']);
             $data['address'] = strtoupper($data['address']);
-
             //update data ke data_undangan
-            $DataUndanganNya = DataUndangan::find($request->get('id'));
+            $DataUndanganNya = DataUndangan::find($id->id);
             $DataUndanganNya->fill($data)->save();
+            //update data ke history_undangan
+
+            //ngemasukin data ke array $data
+            $idh=HistoryUndangan::where('data_undangan_id', $request->id)->first();
+            $datas = $request->only('branch','type_cust');
+            $datas['branch_id']     = $request->branch;
+            $datas['type_cust_id']  = $request->type_cust;
+
+            //masukin data ke data_outsite
+            $HistoryUndanganNya = HistoryUndangan::find($id->id);
+            $HistoryUndanganNya->fill($datas)->save();
 
             return response()->json(['success'=>'Berhasil !!']);
         }
@@ -1223,8 +1235,8 @@ class DataController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'date' => 'required',
-            'province' => 'required',
-            'district' => 'required',
+            // 'province' => 'required',
+            // 'district' => 'required',
             'branch' => 'required',
             'country' => 'required',
             'cso' => 'required',
@@ -1235,8 +1247,8 @@ class DataController extends Controller
             $validator = \Validator::make($request->all(), [
                 'date' => 'required',
                 'bank_name' => 'required',
-                'province' => 'required',
-                'district' => 'required',
+                // 'province' => 'required',
+                // 'district' => 'required',
                 'branch' => 'required',
                 'country' => 'required',
                 'cso' => 'required',
@@ -1294,6 +1306,7 @@ class DataController extends Controller
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
 
+
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'registration_date' => 'required',
@@ -1301,28 +1314,28 @@ class DataController extends Controller
                 'required',
                 Rule::unique('data_outsites')->whereNot('id', $request->get('id'))->where('active', 1),
             ],
-            'province' => 'required',
-            'district' => 'required',
+            // 'province' => 'required',
+            // 'district' => 'required',
             'branch' => 'required',
             'country' => 'required',
-            'cso' => 'required',
+            // 'cso' => 'required',
             'type_cust' => 'required',
         ]);
 
         if($request->type_cust == 2 || $request->type_cust == 4 ){
             $validator = \Validator::make($request->all(), [
                 'name' => 'required',
-                'location_name' => 'required',
+                // 'location_name' => 'required',
                 'registration_date' => 'required',
                 'phone' => [
                     'required',
                     Rule::unique('data_outsites')->whereNot('id', $request->get('id'))->where('active', 1),
                 ],
-                'province' => 'required',
-                'district' => 'required',
+                // 'province' => 'required',
+                // 'district' => 'required',
                 'branch' => 'required',
                 'country' => 'required',
-                'cso' => 'required',
+                // 'cso' => 'required',
                 'type_cust' => 'required',
             ]);
         }
@@ -1338,36 +1351,34 @@ class DataController extends Controller
             return response()->json(['errors'=>$arr_Hasil]);
         }
         else {
-            $data = $request->only('code', 'registration_date', 'name', 'location_name', 'phone', 'province', 'district');
-            $data['name'] = strtoupper($data['name']);
+            // $data = $request->only('code', 'registration_date', 'name', 'phone','branch','type_cust');
+            // $data['name'] = strtoupper($data['name']);
 
-            //Khusus untuk Location Input
-            if($request->location_name != null || $request->location_name != ""){
-                if(Location::where([['name', $request->location_name],['active', true]])->count() == 0){
-                    $tempLocation['name'] = strtoupper($request->location_name);
-                    $countryTemp = Branch::where([['id', $request->branch], ['active', true]])->get();
-                    $tempLocation['country'] = $countryTemp[0]['country'];
-                    $locationObj = Location::create($tempLocation);
-                    $data['location_id'] = $locationObj->id;
-                }
-                else {
-                    $countryTemp = Branch::where([['id', $request->branch], ['active', true]])->get();
-                    $locationObj = location::where([['name', $request->location_name], ['country', $countryTemp[0]['country']], ['active', true]])->get();
-                    $locationObj = $locationObj[0];
-                    $data['location_id'] = $locationObj->id;
-                }
-            }
-            else {
-                $data['location_id'] = null;
-            }
-
-            //ngemasukin data ke array $data
-            $data['branch_id'] = $request->get('branch');
-            $data['cso_id'] = $request->get('cso');
-            $data['type_cust_id'] = $request->get('type_cust');
-
+            // //Khusus untuk Location Input
+            // if($request->location_name != null || $request->location_name != ""){
+            //     if(Location::where([['name', $request->location_name],['active', true]])->count() == 0){
+            //         $tempLocation['name'] = strtoupper($request->location_name);
+            //         $countryTemp = Branch::where([['id', $request->branch], ['active', true]])->get();
+            //         $tempLocation['country'] = $countryTemp[0]['country'];
+            //         $locationObj = Location::create($tempLocation);
+            //         $data['location_id'] = $locationObj->id;
+            //     }
+            //     else {
+            //         $countryTemp = Branch::where([['id', $request->branch], ['active', true]])->get();
+            //         $locationObj = location::where([['name', $request->location_name], ['country', $countryTemp[0]['country']], ['active', true]])->get();
+            //         $locationObj = $locationObj[0];
+            //         $data['location_id'] = $locationObj->id;
+            //     }
+            // }
+            // else {
+            //     $data['location_id'] = null;
+            // }
+            $data = $request->only('code', 'registration_date', 'name', 'phone','branch','type_cust');
+            $id=DataOutsite::where('code', $request->code)->first();
+            $data['branch_id']=$request->branch;
+            $data['type_cust_id']=$request->type_cust;
             //masukin data ke data_outsite
-            $DataOutsiteNya = DataOutsite::find($request->get('id'));
+            $DataOutsiteNya = DataOutsite::find($id->id);
             $DataOutsiteNya->fill($data)->save();
 
             return response()->json(['success'=>'Berhasil !!']);
@@ -1391,11 +1402,11 @@ class DataController extends Controller
                 'required',
                 Rule::unique('data_therapies')->whereNot('id', $request->get('id'))->where('active', 1),
             ],
-            'province' => 'required',
-            'district' => 'required',
+            // 'province' => 'required',
+            // 'district' => 'required',
             'branch' => 'required',
             'country' => 'required',
-            'cso' => 'required',
+            // 'cso' => 'required',
             'type_cust' => 'required',
         ]);
 
@@ -1410,17 +1421,18 @@ class DataController extends Controller
             return response()->json(['errors'=>$arr_Hasil]);
         }
         else {
-            $data = $request->only('registration_date', 'name', 'address', 'phone', 'province', 'district');
+            $data = $request->only('code','registration_date', 'name', 'address', 'phone');
+            $id=DataTherapy::where('code', $request->code)->first();
             $data['name'] = strtoupper($data['name']);
             $data['address'] = strtoupper($data['address']);
 
             //ngemasukin data ke array $data
-            $data['branch_id'] = $request->get('branch');
-            $data['cso_id'] = $request->get('cso');
-            $data['type_cust_id'] = $request->get('type_cust');
+            $data['branch_id'] = $request->branch;
+            // $data['cso_id'] = $request->get('cso');
+            $data['type_cust_id'] = $request->type_cust;
 
             //masukin data ke data_therapy
-            $DataTherapyNya = DataTherapy::find($request->get('id'));
+            $DataTherapyNya = DataTherapy::find($id->id);
             $DataTherapyNya->fill($data)->save();
 
             return response()->json(['success'=>'Berhasil !!']);
@@ -1492,6 +1504,78 @@ class DataController extends Controller
     /*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++    BUAT FIND DATA    +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+    /*Function mencari data History Undangan
+    * menggunakan parameter request langsung
+    */
+    public function findHistoryUndangan(Request $request)
+    {
+
+        $DataHistory = HistoryUndangan::where('data_undangan_id', $request->id)
+        ->join('type_cust', 'history_undangans.type_cust_id', '=', 'type_cust_id.id')
+        ->join('branches', 'history_undangans.branch_id', '=', 'branches.id')
+        ->select('history_undangans.*');
+        $DataHistory = HistoryUndangan::where('data_undangan_id', $request->id)->get();
+        $TypeCust    = TypeCust::all();
+        $Branch      = Branch::all();
+        
+        if($DataHistory != null){
+            return response()->json(['DataHistory' => $DataHistory,'TypeCust' => $TypeCust,
+            'Branch' => $Branch]);
+        }
+        else{
+            return response()->json(['errors'=>'Data Tidak di Temukan !!']);
+        }
+    }
+
+    /*Function mencari data Therapy
+    * menggunakan parameter request langsung
+    */
+    public function findTherapy(Request $request)
+    {
+        // if ($request->has('phone') && $request->phone != null)
+        //     $request->merge(['phone'=> ($this->Encr($request->phone))]);
+
+        $DataTherapy = DataTherapy::find($request->id);
+        $TypeCust = TypeCust::find($DataTherapy['type_cust_id']);
+        $DataTherapy['phone']=$this->Decr($DataTherapy['phone']);
+        $Branch=Branch::find($DataTherapy['branch_id']);
+        // return response()->json(['errors'=>$Branch]);
+        // $array = array_merge($DataUndangan->toArray(), $DataHistory->toArray(),$TypeCust->toArray());
+        if($DataTherapy != null){
+            return response()->json(['DataTherapy' => $DataTherapy,'TypeCust' => $TypeCust,
+            'Branch' => $Branch]);
+        }
+        else{
+            return response()->json(['errors'=>'Data Tidak di Temukan !!']);
+        }
+    }
+
+    /*Function mencari data Undangan
+    * menggunakan parameter request langsung
+    */
+    public function findUndangan(Request $request)
+    {
+        // if ($request->has('phone') && $request->phone != null)
+        //     $request->merge(['phone'=> ($this->Encr($request->phone))]);
+
+        $DataUndangan = DataUndangan::find($request->id);
+        $DataHistory = HistoryUndangan::where('data_undangan_id', $request->id)->get();
+        $TypeCust = TypeCust::find($DataHistory[0]['type_cust_id']);
+
+        // $TypeCust = Table::select('name')->where('id', $DataHistory[0]['type_cust_id'])->get();
+        $DataUndangan['phone']=$this->Decr($DataUndangan['phone']);
+        $Branch=Branch::find($DataHistory[0]['branch_id']);
+        // $array = array_merge($DataUndangan->toArray(), $DataHistory->toArray(),$TypeCust->toArray());
+        if($DataUndangan != null){
+            return response()->json(['DataUndangan' => $DataUndangan,'DataHistory' => $DataHistory,'TypeCust' => $TypeCust,
+            'Branch' => $Branch]);
+            // return response()->json(['data'=>[$DataUndangan,$DataHistory,$TypeCust]]);
+            // ['datavisimisi' => $datavisimisi]
+        }
+        else{
+            return response()->json(['errors'=>'Data Tidak di Temukan !!']);
+        }
+    }
     /*Function mencari data MPC
     * menggunakan parameter request langsung
     */
@@ -1514,21 +1598,63 @@ class DataController extends Controller
     */
     public function findDataOutsite(Request $request)
     {
-        if ($request->has('phone') && $request->phone != null)
-            $request->merge(['phone'=> ($this->Encr($request->phone))]);
+        // if ($request->has('phone') && $request->phone != null)
+        //     $request->merge(['phone'=> ($this->Encr($request->phone))]);
 
-        $DataOutsiteNya = DataOutsite::where([['phone', $request->phone],['active', true]])->first();
-        if($DataOutsiteNya != null && $DataOutsiteNya != "")
-        {
-            $DataOutsiteNya['location'] = Location::find($DataOutsiteNya['location_id']);
-            $DataOutsiteNya['type_cust'] = TypeCust::find($DataOutsiteNya['type_cust_id']);
-            $DataOutsiteNya['phone'] = $this->Decr($DataOutsiteNya['phone']);
-        }
+        // $DataOutsiteNya = DataOutsite::where([['phone', $request->phone],['active', true]])->first();
+        // if($DataOutsiteNya != null && $DataOutsiteNya != "")
+        // {
+        //     $DataOutsiteNya['location'] = Location::find($DataOutsiteNya['location_id']);
+        //     $DataOutsiteNya['type_cust'] = TypeCust::find($DataOutsiteNya['type_cust_id']);
+        //     $DataOutsiteNya['phone'] = $this->Decr($DataOutsiteNya['phone']);
+        // }
+        // if($DataOutsiteNya != null){
+        //     return response()->json(['success'=>$DataOutsiteNya]);
+        // }
+        // else{
+        //     return response()->json(['errors'=>'Data Tidak di Temukan !!']);
+        // }
+
+        $DataOutsiteNya = DataOutsite::find($request->id);
+        // $DataHistory = HistoryUndangan::where('data_undangan_id', $request->id)->get();
+        $TypeCust = TypeCust::find($DataOutsiteNya['type_cust_id']);
+        $DataOutsiteNya['phone']=$this->Decr($DataOutsiteNya['phone']);
+        $Branch=Branch::find($DataOutsiteNya['branch_id']);
+        // return response()->json(['errors'=>$Branch]);
+        // $array = array_merge($DataUndangan->toArray(), $DataHistory->toArray(),$TypeCust->toArray());
         if($DataOutsiteNya != null){
-            return response()->json(['success'=>$DataOutsiteNya]);
+            return response()->json(['DataOutside' => $DataOutsiteNya,'TypeCust' => $TypeCust,
+            'Branch' => $Branch]);
         }
         else{
             return response()->json(['errors'=>'Data Tidak di Temukan !!']);
         }
+    }
+    public function deletedataoutsite(Request $request)
+    {
+        $DataOutsiteNya = DataOutsite::find($request->id);
+        $DataOutsiteNya->active = false;
+        $DataOutsiteNya->save();
+        $request->session()->put('insert_success', 1);
+        return redirect('data');
+        // return response()->json(['success'=>$DataOutsiteNya]);
+    }
+    public function deleteDataTherapy(Request $request)
+    {
+        $DataTherapy = DataTherapy::find($request->id);
+        $DataTherapy->active = false;
+        $DataTherapy->save();
+        $request->session()->put('insert_success', 1);
+        return redirect('data');
+        // return response()->json(['success'=>$DataTherapy]);
+    }
+    public function deleteDataUndangan(Request $request)
+    {
+        $DataUndangan = DataUndangan::find($request->id);
+        $DataUndangan->active = false;
+        $DataUndangan->save();
+        $request->session()->put('insert_success', 1);
+        return redirect('data');
+        // return response()->json(['success'=>$DataUndangan]);
     }
 }

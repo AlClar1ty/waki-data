@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class DataUndangan extends Model
 {
+	// protected  $primaryKey = 'id';
     protected $fillable = [
         'code', 'registration_date', 'name', 'birth_date', 'address', 'phone', 'active',
     ];

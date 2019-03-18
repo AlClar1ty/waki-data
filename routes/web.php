@@ -83,7 +83,16 @@ Route::group(['prefix' => 'data'], function () {
         ->name('update_mpc')
         ->middleware('can:edit-mpc');
 
-
+    //Find History Undangan
+    Route::post('/findHistoryUndangan', 'DataController@findHistoryUndangan')
+        ->name('find_historyUndangan');
+    //Find Undangan
+    Route::post('/findtherapy', 'DataController@findTherapy')
+        ->name('find_therapy');
+    //Find Undangan
+    Route::post('/findundangan', 'DataController@findUndangan')
+        ->name('find_undangan');
+        // ->middleware('can:find-mpc');    
     //Find Mpc
     Route::post('/findmpc', 'DataController@findMpc')
         ->name('find_mpc')
@@ -97,6 +106,12 @@ Route::group(['prefix' => 'data'], function () {
     Route::post('/deletedataoutsite', 'DataController@deleteDataOutsite')
         ->name('delete_dataoutsite')
         ->middleware('can:delete-data-outsite');
+    //Delete Data Therapy
+    Route::post('/deletedatatherapy', 'DataController@deleteDataTherapy')
+        ->name('delete_datatherapy');
+    //Delete Data Undangan
+    Route::post('/deletedataundangan', 'DataController@deleteDataUndangan')
+        ->name('delete_undangan');
 });
 
 //-- MASTER DATA TYPE --//

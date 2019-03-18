@@ -133,9 +133,9 @@
                             <strong></strong>
                         </span>
                     </div>
-                    <div id="Undangan-Bank" class="form-group">
+                    <!-- <div id="Undangan-Bank" class="form-group">
                         
-                    </div>
+                    </div> -->
                     <div class="form-group frm-group-select">
                         <span>COUNTRY</span>
                         <select id="txtcountry-dataundangan" class="text-uppercase form-control" name="country" required>
@@ -552,9 +552,10 @@
                     <button id="btn-actionAddDataTherapy" class="btn btn-primary" type="submit" name="submit">SAVE</button>
                 </div>
             </form>
-            @endif
+            
 
         </div>
+        @endif
         <div class="tab-pane" role="tabpanel" id="tab-4">
             @if(Gate::check('find-mpc'))
             <form id="actionFindMpc" name="FindMpc" action="{{ route('find_mpc') }}" style="display: block;float: inherit;">
@@ -771,11 +772,11 @@
                     <th>LOCATION</th>
                     <th>PHONE</th>
                     <th>TYPE CUST</th>
-                    <th style="display: none;">PROVINCE</th>
-                    <th style="display: none;">DISTRICT</th>
+                    <!-- <th style="display: none;">PROVINCE</th> -->
+                    <!-- <th style="display: none;">DISTRICT</th> -->
                     <th style="display: none;">COUNTRY</th>
                     <th style="display: none;">BRANCH</th>
-                    <th style="display: none;">CSO</th>
+                    <!-- <th style="display: none;">CSO</th> -->
                     <th style="display: none;">TYPE CUST ID</th>
                     <th style="text-align: center;" colspan="2">@if(Gate::check('edit-data-outsite'))EDIT @endif @if(Gate::check('delete-data-outsite'))/ DELETE @endif</th>
                 </tr>
@@ -796,22 +797,23 @@
                             <td>{{DataController::Decr($dataOutsite->phone)}}</td>
                         @endif
                     <td>{{$dataOutsite->type_cust['name']}}</td>
-                    <td style="display: none;">{{$dataOutsite->province}}</td>
-                    <td style="display: none;">{{$dataOutsite->district}}</td>
+                    <!-- <td style="display: none;">{{$dataOutsite->province}}</td> -->
+                    <!-- <td style="display: none;">{{$dataOutsite->district}}</td> -->
                     <td style="display: none;">{{$dataOutsite->branch['country']}}</td>
                     <td style="display: none;">{{$dataOutsite->branch['id']}}</td>
-                    <td style="display: none;">{{$dataOutsite->cso['id']}}</td>
+                    <!-- <td style="display: none;">{{$dataOutsite->cso['id']}}</td> -->
                     <td style="display: none;">{{$dataOutsite->type_cust['id']}}</td>
                     @if(Gate::check('edit-data-outsite'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-editDataOutsite" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
+                        <button class="btn btn-primary btn-editDataOutsite-list" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
                             <i class="material-icons">mode_edit</i>
                         </button>
                     </td>
                     @endif
                     @if(Gate::check('delete-data-outsite'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-deleteDataOutsite" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
+                        <button class="btn btn-primary btn-deleteDataOutsite-list" id="outside_del" type="button" style="padding:0px 5px;" name="{{$i}}"  data-target="#modal-DeleteConfirm" data-toggle="modal"
+                            value="{{route('delete_dataoutsite', ['id' => $dataOutsite->id])}}">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>
@@ -936,14 +938,16 @@
                     <td style="display: none;">{{$dataTherapy->branch['id']}}</td>
                     @if(Gate::check('edit-data-therapy'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-editDataTherapy" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataTherapy->id}}">
+                        <button class="btn btn-primary btn-editDataTherapy-list" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataTherapy->id}}">
                             <i class="material-icons">mode_edit</i>
                         </button>
                     </td>
                     @endif
                     @if(Gate::check('delete-data-therapy'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-deleteDataTherapy" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataTherapy->id}}">
+                        <button class="btn btn-primary btn-deleteDataTherapy-list" type="button" style="padding:0px 5px;" name="{{$i}}" 
+                            data-target="#modal-DeleteConfirm" data-toggle="modal"
+                            value="{{route('delete_datatherapy', ['id' => $dataTherapy->id])}}">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>
@@ -978,7 +982,8 @@
                     <br></p>
                 <p class="card-text" style="font-weight:normal;font-size:14px;margin-bottom:10px;"><b>CSO :</b> {{$dataTherapy->cso['name']}}<br></p>
                 @if(Gate::check('edit-data-therapy'))
-                <button class="btn btn-primary btn-edithapus-card btn-editDataTherapy" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataTherapy->id}}">
+                <button class="btn btn-primary btn-editDataTherapy" type="button" 
+                style="padding:0px 5px;" name="{{$i}}" value="{{$dataTherapy->id}}">
                     <i class="material-icons">mode_edit</i>
                 </button>
                 @endif
@@ -1196,14 +1201,15 @@
                     <td style="display: none;">{{$dataUndangan->birth_date}}</td>
                     @if(Gate::check('edit-data-undangan'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-editDataUndangan" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataUndangan->id}}">
+                        <button class="btn btn-primary btn-editDataUndangan-list" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataUndangan->id}}">
                             <i class="material-icons">mode_edit</i>
                         </button>
                     </td>
                     @endif
                     @if(Gate::check('delete-data-undangan'))
                     <td style="text-align: center;">
-                        <button class="btn btn-primary btn-deleteDataUndangan" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataUndangan->id}}">
+                        <button class="btn btn-primary btn-deleteDataUndangan-list" type="button" style="padding:0px 5px;" name="{{$i}}" data-target="#modal-DeleteConfirm" data-toggle="modal"
+                    value="{{route('delete_undangan', ['id' => $dataUndangan->id])}}">
                             <i class="material-icons">delete</i>
                         </button>
                     </td>
@@ -1242,7 +1248,9 @@
                 </button>
                 @endif
                 @if(Gate::check('delete-data-undangan'))
-                <button class="btn btn-primary btn-edithapus-card btn-deleteDataUndangan" type="button" style="padding:0px 5px;margin-right:10px;" name="{{$i}}" value="{{$dataUndangan->id}}">
+                <button class="btn btn-primary btn-edithapus-card btn-deleteDataUndangan" type="button" style="padding:0px 5px;margin-right:10px;" name="{{$i}}" 
+                    data-target="#modal-DeleteConfirm" data-toggle="modal"
+                    value="{{route('delete_undangan', ['id' => $dataUndangan->id])}}">
                     <i class="material-icons">delete</i>
                 </button>
                 @endif
@@ -1444,10 +1452,10 @@
                     <div class="form-group">
                         <span>TIPE UNDANGAN</span>
                         <select id="edit-txttype-cust-dataundangan" class="text-uppercase form-control" name="type_cust" value="" required>
-                            <optgroup label="TIPE OUT-SITE"> 
+                            <optgroup label="TIPE UNDANGAN"> 
                                 <option value="" disabled selected>SELECT TIPE UNDANGAN</option>
                                 @foreach ($type_custs as $type_cust)
-                                    @if($type_cust->type_input == "OUT-SITE")
+                                    @if($type_cust->type_input == "UNDANGAN")
                                         <option value="{{$type_cust->id}}">{{$type_cust->name}}</option>
                                     @endif
                                 @endforeach
@@ -1500,18 +1508,18 @@
                         <span>BRANCH</span>
                         <select id="edit-txtbranch-dataundangan" class="text-uppercase form-control" name="branch" required>
                             <optgroup label="Branch">
-                                @can('all-branch-data-outsite')
-                                    @can('all-country-data-outsite')
-                                        <option value="" disabled selected>SELECT COUNTRY FIRST</option>
+                                @can('all-branch-data-undangan')
+                                    @can('all-country-data-undangan')
+                                        <option value="" disabled >SELECT COUNTRY FIRST</option>
                                     @endcan
-                                    @cannot('all-country-data-outsite')
-                                        <option value="" selected disabled>SELECT YOUR OPTION</option>
+                                    @cannot('all-country-data-undangan')
+                                        <option value=""  disabled>SELECT YOUR OPTION</option>
                                         @foreach ($branches as $branch)
                                             <option value="{{$branch->id}}" {{($branch->id == Auth::user()->branch_id ? "selected" : "")}}>{{$branch->code}} - {{$branch->name}}</option>
                                         @endforeach
                                     @endcan
                                 @endcan
-                                @cannot('all-branch-data-outsite')
+                                @cannot('all-branch-data-undangan')
                                     <option value="{{Auth::user()->branch_id}}">{{Auth::user()->branch['name']}}</option>
                                 @endcan
                             </optgroup>
@@ -1591,66 +1599,17 @@
                 <tr>
                     <th>REG DATE</th>
                     <th>TYPE</th>
-                    <th>BANK</th>
-                    <!-- <th>CSO</th> -->
                     <th>BRANCH</th>
-                    <th>AREA</th>
                     <th colspan="2">EDIT / DELETE</th>
                 </tr>
             </thead>
             <tbody name="ListDataOutsite">
-                @php
-                $i = 0
-                @endphp
-                @foreach($dataOutsites as $dataOutsite)
-                <tr>
-                    <td>{{$dataOutsite->code}}</td>
-                    <td>{{$dataOutsite->code}}</td>
-                    <td>{{DataController::Decr($dataOutsite->name)}}</td>
-                    <td>{{$dataOutsite->location['name']}} @if($dataOutsite->location == null)- @endif</td>
-                    @if($dataOutsite->phone == "")
-                        <td>-</td>
-                    @else
-                        <td>{{DataController::Decr($dataOutsite->phone)}}</td>
-                    @endif
-                    <td>{{$dataOutsite->type_cust['name']}}</td>
-                    <!-- <td style="display: none;">{{$dataOutsite->province}}</td> -->
-                    <!-- <td style="display: none;">{{$dataOutsite->district}}</td> -->
-                    <td style="display: none;">{{$dataOutsite->branch['country']}}</td>
-                    <td style="display: none;">{{$dataOutsite->branch['id']}}</td>
-                    <!-- <td style="display: none;">{{$dataOutsite->cso['id']}}</td> -->
-                    <td style="display: none;">{{$dataOutsite->type_cust['id']}}</td>
-                    <td><button class="btn btn-primary btn-edithapus-card btn-editDataUndangan" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
-                    <i class="material-icons">mode_edit</i>
-                    </button></td>
-                    <td><button class="btn btn-primary btn-edithapus-card btn-deleteDataUndangan" type="button" style="padding:0px 5px;margin-right:10px;" name="{{$i}}" value="{{$dataOutsite->id}}">
-                    <i class="material-icons">delete</i>
-                    </button></td>
-
-                    <!-- @if(Gate::check('edit-data-outsite'))
-                    <td style="text-align: center;">
-                        <button class="btn btn-primary btn-editDataOutsite" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
-                            <i class="material-icons">mode_edit</i>
-                        </button>
-                    </td>
-                    @endif
-                    @if(Gate::check('delete-data-outsite'))
-                    <td style="text-align: center;">
-                        <button class="btn btn-primary btn-deleteDataOutsite" type="button" style="padding:0px 5px;" name="{{$i}}" value="{{$dataOutsite->id}}">
-                            <i class="material-icons">delete</i>
-                        </button>
-                    </td> -->
-                    @endif
-                </tr>
-                @php
-                $i++
-                @endphp
-                @endforeach
+                
             </tbody>
         </table>
         <div class="modal-footer" style="margin-right: 2%;">
                     <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary" id="btn-confirmUpdateDataUndangan" value="-">SAVE</button>
+                    <button type="submit" class="btn btn-primary" id="btn-confirmUpdateDataOutsite" value="-">SAVE</button>
         </div>
     </div>
 
@@ -1995,8 +1954,7 @@
 
 <!----------------------- KHUSUS UNTUK DELETE DATA -------------------------->
 
-@if(Gate::check('delete-data-outsite'))
-<!-- <div class="modal fade" role="dialog" tabindex="-1" id="modal-DeleteConfirm">
+<div class="modal fade" role="dialog" tabindex="-1" id="modal-DeleteConfirm">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -2006,19 +1964,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p id="txt-delete-dataoutsite"></p>
+                <p id="txt-delete-dataoutsite">Are You Sure to Delete it ?</p>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-light" type="button" data-dismiss="modal">Close</button>
-                <form id="actionDelete" action="{{route('delete_dataoutsite', ['id' => ''])}}" method="post">
+                <button class="btn btn-light" type="button" data-dismiss="modal">No</button>
+                <form id="actionDelete" action="" method="post">
                     {{csrf_field()}}
-                    <button class="btn btn-danger" type="submit" id="btn-confirmDeleteDataOutsite" value="-">Delete</button>
+                    <button class="btn btn-danger" type="submit" id="btn-confirmDeleteData" value="-">Yes</button>
                 </form>
             </div>
         </div>
     </div>
-</div> -->
-@endif
+</div>
+
+
 
 <!--=======================================================================-->
 
@@ -2127,49 +2086,119 @@
 
 <!-- SCRIPT SECTION -->
 @section('script')
+@if(Session::has('insert_success'))
+    <script type="text/javascript">
+        $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data has been DELETED successfully</div>");
+        $("#modal-Notification").modal("show");
+    </script>
+    @php
+        Session::forget('insert_success');
+    @endphp
+@endif
 <script type="text/javascript">
-    $(document).ready(function () {
-        
+
+    // $(".btn-deleteDataOutsite-list").click(function(){
+    //     id=($(this).val());
+    //     $.ajax({
+    //         headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //         type: 'post',
+    //         url: "{{route('delete_dataoutsite')}}",
+    //         data: {
+    //             'id': id
+    //         },
+    //         success: function(data){
+    //             window.location.reload()
+    //         },
+    //     });
+    // });
+    $(".btn-deleteDataOutsite-list").click(function(e) {
+        $("#actionDelete").attr("action",  $(this).val());
     });
-            var countryVal = "INDONESIA";
-            var branches = "<option value=\"\" selected disabled>SELECT YOUR OPTION</option>";
-            $.ajax({
-                headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                type: 'post',
-                url: "{{route('select-country')}}",
-                data: {
-                    'country': countryVal
-                },
-                success: function(data){
-                    if(data.length > 0)
-                    {
-                        data.forEach(function(key, value){
-                            branches += '<option value="'+data[value].id+'">'+data[value].code+' - '+data[value].name+'</option>';
-                        });
-                        $("#txtbranch-dataundangan").html("");
-                        $("#txtbranch-dataundangan").append(branches);
-                        $("#txtbranch-dataoutsite").html("");
-                        $("#txtbranch-dataoutsite").append(branches);
-                        $("#txtbranch-datatherapy").html("");
-                        $("#txtbranch-datatherapy").append(branches);
-                        $("#txtbranch-mpc").html("");
-                        $("#txtbranch-mpc").append(branches);
-                    }
-                    else
-                    {
-                        $("#txtbranch-dataundangan").html("");
-                        $("#txtbranch-dataundangan").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
-                        $("#txtbranch-dataoutsite").html("");
-                        $("#txtbranch-dataoutsite").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
-                        $("#txtbranch-datatherapy").html("");
-                        $("#txtbranch-datatherapy").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
-                        $("#txtbranch-mpc").html("");
-                        $("#txtbranch-mpc").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
-                    }
-                },
-            });
+    $(".btn-deleteDataUndangan-list").click(function(e) {
+        $("#actionDelete").attr("action",  $(this).val());
+    });
+    $(".btn-deleteDataTherapy-list").click(function(e) {
+        $("#actionDelete").attr("action",  $(this).val());
+    });
+    // $("#btn-confirmDeleteData").click(function()
+    // {
+    //     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data has been DELETED successfully</div>");
+    //     $("#modal-Notification").modal("show");
+    // });
+
+    // $(".btn-deleteDataTherapy-list").click(function(){
+    //     id=($(this).val());
+    //     $.ajax({
+    //         headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //         type: 'post',
+    //         url: "{{route('delete_datatherapy')}}",
+    //         data: {
+    //             'id': id
+    //         },
+    //         success: function(data){
+    //             window.location.reload()
+    //         },
+    //     });
+    // });
+    // $(".btn-deleteDataUndangan-list").click(function(){
+    //     id=($(this).val());
+    //     $.ajax({
+    //         headers: {
+    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    //             },
+    //         type: 'post',
+    //         url: "{{route('delete_undangan')}}",
+    //         data: {
+    //             'id': id
+    //         },
+    //         success: function(data){
+    //             window.location.reload()
+    //         },
+    //     });
+    // });
+    var countryVal = "INDONESIA";
+    var branches = "<option value=\"\" selected disabled>SELECT YOUR OPTION</option>";
+    $.ajax({
+        headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        type: 'post',
+        url: "{{route('select-country')}}",
+        data: {
+            'country': countryVal
+        },
+        success: function(data){
+            if(data.length > 0)
+            {
+                data.forEach(function(key, value){
+                    branches += '<option value="'+data[value].id+'">'+data[value].code+' - '+data[value].name+'</option>';
+                });
+                $("#txtbranch-dataundangan").html("");
+                $("#txtbranch-dataundangan").append(branches);
+                $("#txtbranch-dataoutsite").html("");
+                $("#txtbranch-dataoutsite").append(branches);
+                $("#txtbranch-datatherapy").html("");
+                $("#txtbranch-datatherapy").append(branches);
+                $("#txtbranch-mpc").html("");
+                $("#txtbranch-mpc").append(branches);
+            }
+            else
+            {
+                $("#txtbranch-dataundangan").html("");
+                $("#txtbranch-dataundangan").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                $("#txtbranch-dataoutsite").html("");
+                $("#txtbranch-dataoutsite").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                $("#txtbranch-datatherapy").html("");
+                $("#txtbranch-datatherapy").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                $("#txtbranch-mpc").html("");
+                $("#txtbranch-mpc").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+            }
+        },
+    });
 </script>
 @cannot('all-country-data-undangan')
 <script type="text/javascript">
@@ -2765,45 +2794,206 @@
                 $("#Undangan-Bank").html("");
             }
         });
-
-        $(".btn-editDataUndangan").click(function(e) {
-            
-            var URLNya = $("#actionFindDataOutsite").attr('action');
+        $(".btn-editDataTherapy-list").click(function(e) {
+            id=($(this).val());
+            // var URLNya = $("#actionFindDataOutsite").attr('action');
             $.ajax({
                 headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                 type: 'post',
-                url: URLNya,
+                url: "{{route('find_therapy')}}",
                 data: {
-                    'phone': PhoneNya
+                    'id': id
                 },
                 success: function(data){
-                    $("#modal-FindDataOutsite").modal("show");
-                    $("#modal-FindDataOutsite").find("span.txt-Kode").html(data['success']['code']);
-                    $("#modal-FindDataOutsite").find("span.txt-Name").html(data['success']['name']);
-                    if(data['success']['location'] != null && data['success']['location'] != "")
-                    {
-                        $("#modal-FindDataOutsite").find("span.txt-Location").html(data['success']['location']['name']);
-                    }
-                    $("#modal-FindDataOutsite").find("span.txt-Phone").html(data['success']['phone']);
-                    $("#modal-FindDataOutsite").find("span.txt-TypeCust").html(data['success']['type_cust']['name']);
-                    $("#modal-FindDataOutsite").find("h4#txt-FindDataOutsite").html("DATA IS FOUND");
-                
-                    $("#modal-FindDataOutsite").modal("show");
-                    $("#modal-FindDataOutsite").find("span.txt-Kode").html("-");
-                    $("#modal-FindDataOutsite").find("span.txt-Name").html("-");
-                    $("#modal-FindDataOutsite").find("span.txt-Location").html("-");
-                    $("#modal-FindDataOutsite").find("span.txt-Phone").html("-");
-                    $("#modal-FindDataOutsite").find("span.txt-TypeCust").html("-");
+                    console.log(data['Branch']['id']);
+                    var brcn=data['Branch']['id'];
+                    var countryVal = "INDONESIA";
+                    var branches = "<option value=\"\" selected disabled>SELECT YOUR OPTION</option>";
+                    $.ajax({
+                        headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                        type: 'post',
+                        url: "{{route('select-country')}}",
+                        data: {
+                            'country': countryVal
+                        },
+                        success: function(data){
+                            if(data.length > 0)
+                            {
+                                data.forEach(function(key, value){
+                                    branches += '<option value="'+data[value].id+'">'+data[value].code+' - '+data[value].name+'</option>';
+                                });
+                                $("#edit-txtbranch-datatherapy").html("");
+                                $("#edit-txtbranch-datatherapy").append(branches);
+                            }
+                            else
+                            {
+                                $("#edit-txtbranch-datatherapy").html("");
+                                $("#edit-txtbranch-datatherapy").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                            }
+                            
+                        },
+                    });
+                    setTimeout(function(){ 
+                        $('#edit-txtbranch-datatherapy').val(brcn);
+                    }, 500);
+                    $('#edit-txtphone-datatherapy').val(data['DataTherapy']['phone']);
+                    $('#edit-txtaddress-datatherapy').val(data['DataTherapy']['address']);
+                    $('#edit-txtbirt-date-datatherapy').val(data['DataTherapy']['birth_date']);
+                    $('#edit-txtname-datatherapy').val(data['DataTherapy']['name']);
+                    $('#edit-txtreg-date-datatherapy').val(data['DataTherapy']['registration_date']);
+                    $('#edit-txttype-cust-datatherapy').val(data['TypeCust']['id']);
+                    $('#edit-txtcode-datatherapy').val(data['DataTherapy']['code']);
+                    $("#modal-EditDataTherapy").modal("show");
+                    
+                },
+            });
+            
+        });
+        $(".btn-editDataOutsite-list").click(function(e) {
+            console.log('asd');
+            id=($(this).val());
+            // var URLNya = $("#actionFindDataOutsite").attr('action');
+            $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('find_dataoutsite')}}",
+                data: {
+                    'id': id
+                },
+                success: function(data){
+                    console.log(data['Branch']['id']);
+                    var brcn=data['Branch']['id'];
+                    var countryVal = "INDONESIA";
+                    var branches = "<option value=\"\" selected disabled>SELECT YOUR OPTION</option>";
+                    $.ajax({
+                        headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                        type: 'post',
+                        url: "{{route('select-country')}}",
+                        data: {
+                            'country': countryVal
+                        },
+                        success: function(data){
+                            if(data.length > 0)
+                            {
+                                data.forEach(function(key, value){
+                                    branches += '<option value="'+data[value].id+'">'+data[value].code+' - '+data[value].name+'</option>';
+                                });
+                                $("#edit-txtbranch-dataoutsite").html("");
+                                $("#edit-txtbranch-dataoutsite").append(branches);
+                            }
+                            else
+                            {
+                                $("#edit-txtbranch-dataoutsite").html("");
+                                $("#edit-txtbranch-dataoutsite").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                            }
+                            
+                        },
+                    });
+                    setTimeout(function(){ 
+                        $('#edit-txtbranch-dataoutsite').val(brcn);
+                    }, 500);
+                    $('#edit-txtphone-dataoutsite').val(data['DataOutside']['phone']);
+                    $('#edit-txtaddress-dataoutsite').val(data['DataOutside']['address']);
+                    $('#edit-txtbirt-date-dataoutsite').val(data['DataOutside']['birth_date']);
+                    $('#edit-txtname-dataoutsite').val(data['DataOutside']['name']);
+                    $('#edit-txtreg-date-dataoutsite').val(data['DataOutside']['registration_date']);
+                    $('#edit-txttype-cust-dataoutsite').val(data['TypeCust']['id']);
+                    $('#edit-txtcode-dataoutsite').val(data['DataOutside']['code']);
+                    $("#modal-EditDataOutsite").modal("show");
+                    
+                },
+            });
+            
+        });
+        $(".btn-editDataUndangan-list").click(function(e) {
+            id=($(this).val());
+            $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('find_historyUndangan')}}",
+                data: {
+                    'id': id
+                },
+                success: function(data){
+                    console.log(data);
+                    
+                },
+            });
 
+            $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('find_undangan')}}",
+                data: {
+                    'id': id
+                },
+                success: function(data){
+                    var brcn=data['Branch']['id'];
+                    console.log(brcn);
+                    var countryVal = "INDONESIA";
+                    var branches = "<option value=\"\" selected disabled>SELECT YOUR OPTION</option>";
+                    $.ajax({
+                        headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                        type: 'post',
+                        url: "{{route('select-country')}}",
+                        data: {
+                            'country': countryVal
+                        },
+                        success: function(data){
+                            if(data.length > 0)
+                            {
+                                data.forEach(function(key, value){
+                                    branches += '<option value="'+data[value].id+'">'+data[value].code+' - '+data[value].name+'</option>';
+                                });
+                                $("#edit-txtbranch-dataundangan").html("");
+                                $("#edit-txtbranch-dataundangan").append(branches);
+                            }
+                            else
+                            {
+                                $("#edit-txtbranch-dataundangan").html("");
+                                $("#edit-txtbranch-dataundangan").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
+                            }
+                            
+                        },
+                    });
+                    setTimeout(function(){ 
+                        $('#edit-txtbranch-dataundangan').val(brcn);
+                    }, 500);
+                    $('#edit-txtphone-dataundangan').val(data['DataUndangan']['phone']);
+                    $('#edit-txtaddress-dataundangan').val(data['DataUndangan']['address']);
+                    $('#edit-txtbirt-date-dataundangan').val(data['DataUndangan']['birth_date']);
+                    $('#edit-txtname-dataundangan').val(data['DataUndangan']['name']);
+                    $('#edit-txtreg-date-dataundangan').val(data['DataUndangan']['registration_date']);
+                    $('#edit-txttype-cust-dataundangan').val(data['TypeCust']['id']);
+                    $('#edit-txtcode-dataundangan').val(data['DataUndangan']['code']);
                     $("#modal-EditDataUndangan").modal("show");
                     
                 },
             });
             
         });
+        function getSelectedText(elementId) {
+            var elt = document.getElementById(elementId);
 
+            if (elt.selectedIndex == -1)
+                return null;
+
+            return elt.options[elt.selectedIndex].text;
+        }
         // $("#actionAddDataUndangan").on("submit", function (e) {
         //     e.preventDefault();
         //     console.log('zzzzz');
@@ -2881,6 +3071,7 @@
         var tempLocation = "";
 
         $('#actionFindDataOutsite').on("submit", function (e) {
+            // console.log('zxv');
             e.preventDefault();
             var URLNya = $("#actionFindDataOutsite").attr('action');
             var PhoneNya = $("#actionFindDataOutsite").find("input[name=find]").val();
@@ -2944,47 +3135,47 @@
         });
 
         //untuk menampilkan modal edit data OUTSITE dan menampilkan data mana yg mau di edit
-        $(".btn-editDataOutsite").click(function(e) {
-            var dataOutsite = GetListDataOutsite(this.name);
-            document.getElementById("edit-txtreg-date-dataoutsite").value = dataOutsite.reg_date;
-            document.getElementById("edit-txtcode-dataoutsite").value = dataOutsite.kode;
-            document.getElementById("edit-txtname-dataoutsite").value = dataOutsite.nama;
-            document.getElementById("edit-txtcountry-dataoutsite").value = dataOutsite.country;
-            document.getElementById("edit-txtprovince-dataoutsite").value = dataOutsite.province;
-            document.getElementById("edit-txtphone-dataoutsite").value = dataOutsite.phone;
-            document.getElementById("edit-txttype-cust-dataoutsite").value = dataOutsite.typecust;
-            document.getElementById("edit-txtcso-dataoutsite").value = dataOutsite.cso;
-            document.getElementById("btn-confirmUpdateDataOutsite").value = this.value;
-            tempLocation = dataOutsite.location;
+        // $(".btn-editDataOutsite").click(function(e) {
+        //     var dataOutsite = GetListDataOutsite(this.name);
+        //     document.getElementById("edit-txtreg-date-dataoutsite").value = dataOutsite.reg_date;
+        //     document.getElementById("edit-txtcode-dataoutsite").value = dataOutsite.kode;
+        //     document.getElementById("edit-txtname-dataoutsite").value = dataOutsite.nama;
+        //     document.getElementById("edit-txtcountry-dataoutsite").value = dataOutsite.country;
+        //     document.getElementById("edit-txtprovince-dataoutsite").value = dataOutsite.province;
+        //     document.getElementById("edit-txtphone-dataoutsite").value = dataOutsite.phone;
+        //     document.getElementById("edit-txttype-cust-dataoutsite").value = dataOutsite.typecust;
+        //     document.getElementById("edit-txtcso-dataoutsite").value = dataOutsite.cso;
+        //     document.getElementById("btn-confirmUpdateDataOutsite").value = this.value;
+        //     tempLocation = dataOutsite.location;
 
-            var pilihanProvinsi = dataOutsite.province;
-            var pilihanCso = dataOutsite.cso;
-            var pilihanBranch = dataOutsite.branch;
-            var isiOption = "";
+        //     var pilihanProvinsi = dataOutsite.province;
+        //     var pilihanCso = dataOutsite.cso;
+        //     var pilihanBranch = dataOutsite.branch;
+        //     var isiOption = "";
 
-            //UPDATE DISTRICT
-            var districtTemp = $("#edit-txtdistrict-dataoutsite").children("optgroup").eq(0);
-            districtTemp.empty();
-            $.get( "etc/select-"+unescape(pilihanProvinsi)+".php", function( data ) {
-                addToDistrict(districtTemp, data, function(){
-                    document.getElementById("edit-txtdistrict-dataoutsite").value = dataOutsite.district;
-                });
-            });
+        //     //UPDATE DISTRICT
+        //     var districtTemp = $("#edit-txtdistrict-dataoutsite").children("optgroup").eq(0);
+        //     districtTemp.empty();
+        //     $.get( "etc/select-"+unescape(pilihanProvinsi)+".php", function( data ) {
+        //         addToDistrict(districtTemp, data, function(){
+        //             document.getElementById("edit-txtdistrict-dataoutsite").value = dataOutsite.district;
+        //         });
+        //     });
 
-            //UPDATE BRANCH
-            RetriveSelectedBranch(dataOutsite.country, dataOutsite.branch, "#edit-txtbranch-dataoutsite");
+        //     //UPDATE BRANCH
+        //     RetriveSelectedBranch(dataOutsite.country, dataOutsite.branch, "#edit-txtbranch-dataoutsite");
 
-            //CEK ADA LOKASI APA TIDAK
-            $("#edit-Outsite-Location").html("");
-            if(dataOutsite.location != " - "){
-                $("#edit-Outsite-Location").html(
-                    "<span>LOCATION NAME</span><input list=\"location_list\" name=\"location_name\" class=\"text-uppercase form-control\" placeholder=\"example. CITRALAND, PAKUWON, etc.\" required=\"\"><datalist id=\"edit-location_list\"><span class=\"invalid-feedback\"><strong></strong></span>@foreach ($locations as $location)<option value=\"{{$location->name}}\">@endforeach</datalist>"
-                );
-                $("#edit-Outsite-Location > input").val(dataOutsite.location);
-            }
+        //     //CEK ADA LOKASI APA TIDAK
+        //     $("#edit-Outsite-Location").html("");
+        //     if(dataOutsite.location != " - "){
+        //         $("#edit-Outsite-Location").html(
+        //             "<span>LOCATION NAME</span><input list=\"location_list\" name=\"location_name\" class=\"text-uppercase form-control\" placeholder=\"example. CITRALAND, PAKUWON, etc.\" required=\"\"><datalist id=\"edit-location_list\"><span class=\"invalid-feedback\"><strong></strong></span>@foreach ($locations as $location)<option value=\"{{$location->name}}\">@endforeach</datalist>"
+        //         );
+        //         $("#edit-Outsite-Location > input").val(dataOutsite.location);
+        //     }
 
-            $("#modal-EditDataOutsite").modal("show");
-        });
+        //     $("#modal-EditDataOutsite").modal("show");
+        // });
 
         // $("#actionAddDataOutsite").on("submit", function (e) {
         //     e.preventDefault();
@@ -3002,6 +3193,7 @@
         // });
 
         $("#actionEditDataOutsite").on("submit", function (e) {
+            // console.log('asfd');
             e.preventDefault();
             isAddDataOutsite = false;
             frmEditOutsite = _("actionEditDataOutsite");
@@ -3132,38 +3324,38 @@
             e.preventDefault();
         });
 
-        $(".btn-editDataTherapy").click(function(e) {
-            var dataTherapy = GetListDataTherapy(this.name);
-            document.getElementById("edit-txtreg-date-datatherapy").value = dataTherapy.reg_date;
-            document.getElementById("edit-txtcode-datatherapy").value = dataTherapy.kode;
-            document.getElementById("edit-txtname-datatherapy").value = dataTherapy.nama;
-            document.getElementById("edit-txtaddress-datatherapy").value = dataTherapy.address;
-            document.getElementById("edit-txtcountry-datatherapy").value = dataTherapy.country;
-            document.getElementById("edit-txtprovince-datatherapy").value = dataTherapy.province;
-            document.getElementById("edit-txtphone-datatherapy").value = dataTherapy.phone;
-            document.getElementById("edit-txttype-cust-datatherapy").value = dataTherapy.typecust;
-            document.getElementById("edit-txtcso-datatherapy").value = dataTherapy.cso;
-            document.getElementById("btn-confirmUpdateDataTherapy").value = this.value;
+        // $(".btn-editDataTherapy").click(function(e) {
+        //     var dataTherapy = GetListDataTherapy(this.name);
+        //     document.getElementById("edit-txtreg-date-datatherapy").value = dataTherapy.reg_date;
+        //     document.getElementById("edit-txtcode-datatherapy").value = dataTherapy.kode;
+        //     document.getElementById("edit-txtname-datatherapy").value = dataTherapy.nama;
+        //     document.getElementById("edit-txtaddress-datatherapy").value = dataTherapy.address;
+        //     document.getElementById("edit-txtcountry-datatherapy").value = dataTherapy.country;
+        //     document.getElementById("edit-txtprovince-datatherapy").value = dataTherapy.province;
+        //     document.getElementById("edit-txtphone-datatherapy").value = dataTherapy.phone;
+        //     document.getElementById("edit-txttype-cust-datatherapy").value = dataTherapy.typecust;
+        //     document.getElementById("edit-txtcso-datatherapy").value = dataTherapy.cso;
+        //     document.getElementById("btn-confirmUpdateDataTherapy").value = this.value;
 
-            var pilihanProvinsi = dataTherapy.province;
-            var pilihanCso = dataTherapy.cso;
-            var pilihanBranch = dataTherapy.branch;
-            var isiOption = "";
+        //     var pilihanProvinsi = dataTherapy.province;
+        //     var pilihanCso = dataTherapy.cso;
+        //     var pilihanBranch = dataTherapy.branch;
+        //     var isiOption = "";
 
-            //UPDATE DISTRICT
-            var districtTemp = $("#edit-txtdistrict-datatherapy").children("optgroup").eq(0);
-            districtTemp.empty();
-            $.get( "etc/select-"+unescape(pilihanProvinsi)+".php", function( data ) {
-                addToDistrict(districtTemp, data, function(){
-                    document.getElementById("edit-txtdistrict-datatherapy").value = dataTherapy.district;
-                });
-            });
+        //     //UPDATE DISTRICT
+        //     var districtTemp = $("#edit-txtdistrict-datatherapy").children("optgroup").eq(0);
+        //     districtTemp.empty();
+        //     $.get( "etc/select-"+unescape(pilihanProvinsi)+".php", function( data ) {
+        //         addToDistrict(districtTemp, data, function(){
+        //             document.getElementById("edit-txtdistrict-datatherapy").value = dataTherapy.district;
+        //         });
+        //     });
 
-            //UPDATE BRANCH
-            RetriveSelectedBranch(dataTherapy.country, dataTherapy.branch, "#edit-txtbranch-datatherapy");
+        //     //UPDATE BRANCH
+        //     RetriveSelectedBranch(dataTherapy.country, dataTherapy.branch, "#edit-txtbranch-datatherapy");
 
-            $("#modal-EditDataTherapy").modal("show");
-        });
+        //     $("#modal-EditDataTherapy").modal("show");
+        // });
 
         // $("#actionAddDataTherapy").on("submit", function (e) {
         //     e.preventDefault();
@@ -3497,5 +3689,113 @@
         }
         /*===================================================*/
     });
+
+    //update undangan
+    // $("#actionEditDataUndangan").on("submit", function (e) {
+    //         e.preventDefault();
+    //         isAddDataTherapy = false;
+    //         frmEditTherapy = _("actionEditDataUndangan");
+    //         frmEditTherapy = new FormData(frmEditTherapy);
+    //         frmEditTherapy.append("id",$(this).find("button").eq(1).val());
+    //         var URLNya = $("#actionEditDataUndangan").attr('action');
+
+    //         var ajax = new XMLHttpRequest();
+    //         ajax.upload.addEventListener("progress", progressHandlerTherapy, false);
+    //         ajax.addEventListener("load", completeHandlerTherapy, false);
+    //         ajax.addEventListener("error", errorHandlerTherapy, false);
+    //         ajax.open("POST", URLNya);
+    //         ajax.setRequestHeader("X-CSRF-TOKEN",$('meta[name="csrf-token"]').attr('content'));
+    //         ajax.send(frmEditTherapy);
+    //     });
+
+    //     function progressHandlerTherapy(event){
+    //         if(isAddDataTherapy){
+    //             document.getElementById("btn-actionAddDataUndangan").innerHTML = "UPLOADING...";
+    //         }
+    //         else{
+    //             document.getElementById("btn-confirmUpdateDataUndangan").innerHTML = "UPLOADING...";
+    //         }
+    //     }
+    //     function completeHandlerTherapy(event){
+    //         var hasil = JSON.parse(event.target.responseText);
+
+    //         if(isAddDataTherapy){
+    //             for (var key of frmAddTherapy.keys()) {
+    //                 $("#actionAddDataUndangan").find("input[name="+key+"]").removeClass("is-invalid");
+    //                 $("#actionAddDataUndangan").find("select[name="+key+"]").removeClass("is-invalid");
+    //                 $("#actionAddDataUndangan").find("textarea[name="+key+"]").removeClass("is-invalid");
+
+    //                 $("#actionAddDataUndangan").find("input[name="+key+"]").next().find("strong").text("");
+    //                 $("#actionAddDataUndangan").find("select[name="+key+"]").next().find("strong").text("");
+    //                 $("#actionAddDataUndangan").find("textarea[name="+key+"]").next().find("strong").text("");
+    //             }
+
+    //             if(hasil['errors'] != null){
+    //                 for (var key of frmAddTherapy.keys()) {
+    //                     if(typeof hasil['errors'][key] === 'undefined') {
+                            
+    //                     }
+    //                     else {
+    //                         $("#actionAddDataUndangan").find("input[name="+key+"]").addClass("is-invalid");
+    //                         $("#actionAddDataUndangan").find("select[name="+key+"]").addClass("is-invalid");
+    //                         $("#actionAddDataUndangan").find("textarea[name="+key+"]").addClass("is-invalid");
+
+    //                         $("#actionAddDataUndangan").find("input[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                         $("#actionAddDataUndangan").find("select[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                         $("#actionAddDataUndangan").find("textarea[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                     }
+    //                 }
+    //             }
+    //             else{
+    //                 $('#modal-UpdateForm').modal('hide')
+    //                 $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">New Data Therapy has been ADDED successfully</div>");
+    //                 $("#modal-Notification").modal("show");
+    //             }
+
+    //             document.getElementById("btn-actionAddDataTherapy").innerHTML = "SAVE";
+    //         }
+    //         else{
+    //             for (var key of frmEditTherapy.keys()) {
+    //                 $("#actionEditDataUndangan").find("input[name="+key+"]").removeClass("is-invalid");
+    //                 $("#actionEditDataUndangan").find("select[name="+key+"]").removeClass("is-invalid");
+    //                 $("#actionEditDataUndangan").find("textarea[name="+key+"]").removeClass("is-invalid");
+
+    //                 $("#actionEditDataUndangan").find("input[name="+key+"]").next().find("strong").text("");
+    //                 $("#actionEditDataUndangan").find("select[name="+key+"]").next().find("strong").text("");
+    //                 $("#actionEditDataUndangan").find("textarea[name="+key+"]").next().find("strong").text("");
+    //             }
+
+    //             if(hasil['errors'] != null){
+    //                 for (var key of frmEditTherapy.keys()) {
+    //                     if(typeof hasil['errors'][key] === 'undefined') {
+                            
+    //                     }
+    //                     else {
+    //                         $("#actionEditDataUndangan").find("input[name="+key+"]").addClass("is-invalid");
+    //                         $("#actionEditDataUndangan").find("select[name="+key+"]").addClass("is-invalid");
+    //                         $("#actionEditDataUndangan").find("textarea[name="+key+"]").addClass("is-invalid");
+
+    //                         $("#actionEditDataUndangan").find("input[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                         $("#actionEditDataUndangan").find("select[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                         $("#actionEditDataUndangan").find("textarea[name="+key+"]").next().find("strong").text(hasil['errors'][key]);
+    //                     }
+    //                 }
+    //             }
+    //             else{
+    //                 $('#modal-EditDataUndangan').modal('hide')
+    //                 $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data Therapy has been CHANGED successfully</div>");
+    //                 $("#modal-Notification").modal("show");
+    //             }
+
+    //             document.getElementById("btn-confirmUpdateDataUndangan").innerHTML = "SAVE";
+    //         }
+
+            
+    //     }
+    //     function errorHandlerTherapy(event){
+    //         document.getElementById("btn-confirmUpdateDataUndangan").innerHTML = "SAVE";
+    //         $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-error\">"+event.target.responseText+"</div>");
+    //         $("#modal-Notification").modal("show");
+    //     }
 </script>
 @endsection
