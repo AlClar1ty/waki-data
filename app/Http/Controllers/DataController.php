@@ -1229,16 +1229,20 @@ class DataController extends Controller
             //update data ke history_undangan
 
             //ngemasukin data ke array $data
-            $idh=HistoryUndangan::where('data_undangan_id', $request->id)->first();
+            $idh=HistoryUndangan::where('data_undangan_id', $DataUndanganNya->id)->first();
             $datas = $request->only('branch','type_cust');
             $datas['branch_id']     = $request->branch;
             $datas['type_cust_id']  = $request->type_cust;
 
             //masukin data ke data_outsite
-            $HistoryUndanganNya = HistoryUndangan::find($id->id);
+            $HistoryUndanganNya = HistoryUndangan::find($idh->id);
+            //dd($idh->id);
             $HistoryUndanganNya->fill($datas)->save();
 
-            return response()->json(['success'=>'Berhasil !!']);
+            $request = new \Illuminate\Http\Request();
+            $user = Auth::user();
+            return $this->Index($request);
+            //return response()->json(['success'=>'Berhasil !!']);
         }
     }
 

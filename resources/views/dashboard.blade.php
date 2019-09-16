@@ -43,9 +43,9 @@
             </div>
         </div><!--/.row-->
         
-        <div class="panel panel-container">
+        <div class="panel-container">
             <div class="row">
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-teal panel-widget border-right">
                         <div class="row no-padding"><em class="fa fa-xl fa-users color-blue"></em>
                             <div class="large">{{$dataUndangans}}</div>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-blue panel-widget border-right">
                         <div class="row no-padding"><em class="fa fa-xl fa-arrow-up color-orange"></em>
                             <div class="large">{{$dataOutsites}}</div>
@@ -61,7 +61,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <div class="col-xs-6 col-md-4 col-lg-4 no-padding">
                     <div class="panel panel-orange panel-widget border-right">
                         <div class="row no-padding"><em class="fa fa-xl fa-arrow-down color-teal"></em>
                             <div class="large">{{$dataTherapies}}</div>
@@ -69,14 +69,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
+                <!-- <div class="col-xs-6 col-md-3 col-lg-3 no-padding">
                     <div class="panel panel-red panel-widget ">
                         <div class="row no-padding"><em class="fa fa-xl fa-credit-card color-red"></em>
                             <div class="large">{{$mpcs}}</div>
                             <div class="text-muted">MPC</div>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div><!--/.row-->
         </div>
         <div class="row">
@@ -95,7 +95,7 @@
             </div>
         </div><!--/.row-->
         
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-xs-6 col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body easypiechart-panel">
@@ -128,7 +128,7 @@
                     </div>
                 </div>
             </div>
-        </div><!--/.row-->
+        </div><!--/.row--> -->
     </div>
 </div>
 @endsection
