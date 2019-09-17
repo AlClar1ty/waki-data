@@ -852,14 +852,20 @@ class DataController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'registration_date' => 'required',
+            // 'registration_date' => 'required',
+            'registration_day' => 'required',
+            'registration_month' => 'required',
+            'registration_year' => 'required',
             'phone' => [
                 'required',
                 Rule::unique('data_undangans')->where('active', 1),
             ],
             'branch' => 'required',
             'country' => 'required',
-            'birth_date' => 'required',
+            // 'birth_date' => 'required',
+            'birth_day' => 'required',
+            'birth_month' => 'required',
+            'birth_year' => 'required',
             'type_cust' => 'required',
         ]);
 
@@ -867,7 +873,10 @@ class DataController extends Controller
             $validator = \Validator::make($request->all(), [
                 'name' => 'required',
                 'address' => 'required',
-                'registration_date' => 'required',
+                // 'registration_date' => 'required',
+                'registration_day' => 'required',
+                'registration_month' => 'required',
+                'registration_year' => 'required',
                 'phone' => [
                     'required',
                     Rule::unique('data_undangans')->where('active', 1),
@@ -875,7 +884,10 @@ class DataController extends Controller
                 // 'bank_name' => 'required',
                 'branch' => 'required',
                 'country' => 'required',
-                'birth_date' => 'required',
+                // 'birth_date' => 'required',
+                'birth_day' => 'required',
+                'birth_month' => 'required',
+                'birth_year' => 'required',
                 'type_cust' => 'required',
             ]);
         }
@@ -895,9 +907,15 @@ class DataController extends Controller
             $count = DataUndangan::all()->count();
             $count++;
 
-            $data = $request->only('code', 'registration_date', 'name', 'birth_date', 'address', 'phone', 'province', 'district');
+            $data = $request->only('code', 'registration_day','registration_month','registration_year', 'name', 'birth_day','birth_month','birth_year', 'address', 'phone', 'province', 'district');
             $data['name'] = strtoupper($data['name']);
             $data['address'] = strtoupper($data['address']);
+
+            $regis_date = $request->registration_year.'-'.$request->registration_month.'-'.$request->registration_day;
+            $data['registration_date'] = $regis_date;
+
+            $birth_date = $request->birth_year.'-'.$request->birth_month.'-'.$request->birth_day;
+            $data['birth_date'] = $birth_date;
 
             //Khusus untuk Bank Input
             if($request->bank_name != null || $request->bank_name != ""){
@@ -952,7 +970,10 @@ class DataController extends Controller
 
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
-            'registration_date' => 'required',
+            // 'registration_date' => 'required',
+            'registration_day' => 'required',
+            'registration_month' => 'required',
+            'registration_year' => 'required',
             'phone' => [
                 'required',
                 Rule::unique('data_outsites')->where('active', 1),
@@ -965,7 +986,10 @@ class DataController extends Controller
         if($request->type_cust == 3 || $request->type_cust == 5){ //DEMO OR MGM
             $validator = \Validator::make($request->all(), [
                 'name' => 'required',
-                'registration_date' => 'required',
+                // 'registration_date' => 'required',
+                'registration_day' => 'required',
+                'registration_month' => 'required',
+                'registration_year' => 'required',
                 'phone' => [
                     'required',
                     Rule::unique('data_outsites')->where('active', 1),
@@ -980,7 +1004,10 @@ class DataController extends Controller
             $validator = \Validator::make($request->all(), [
                 'name' => 'required',
                 'location_name' => 'required',
-                'registration_date' => 'required',
+                // 'registration_date' => 'required',
+                'registration_day' => 'required',
+                'registration_month' => 'required',
+                'registration_year' => 'required',
                 'phone' => [
                     'required',
                     Rule::unique('data_outsites')->where('active', 1),
@@ -1006,8 +1033,13 @@ class DataController extends Controller
             $count = DataOutsite::all()->count();
             $count++;
 
-            $data = $request->only('code', 'registration_date', 'name', 'location_name', 'phone');
+            $data = $request->only('code', 'registration_day','registration_month','registration_year', 'name', 'location_name', 'phone');
             $data['name'] = strtoupper($data['name']);
+
+            //tambahan dari amel - karena regis date dipecah jadi 3
+            $regis_date = $request->registration_year.'-'.$request->registration_month.'-'.$request->registration_day;
+            $data['registration_date'] = $regis_date;
+            //tambahan amel - end
 
             // if($request->get('province') != null && $request->get('province') != "")
             // {
@@ -1071,7 +1103,10 @@ class DataController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'registration_date' => 'required',
+            // 'registration_date' => 'required',
+            'registration_day' => 'required',
+            'registration_month' => 'required',
+            'registration_year' => 'required',
             'phone' => [
                 'required',
                 Rule::unique('data_therapies')->where('active', 1),
@@ -1096,8 +1131,11 @@ class DataController extends Controller
             $count = DataTherapy::all()->count();
             $count++;
 
-            $data = $request->only('code', 'registration_date', 'name', 'address', 'phone');
+            $data = $request->only('code', 'registration_day','registration_month','registration_year', 'name', 'address', 'phone');
             $data['name'] = strtoupper($data['name']);
+
+            $regis_date = $request->registration_year.'-'.$request->registration_month.'-'.$request->registration_day;
+            $data['registration_date'] = $regis_date;
 
             //pembentukan kode data therapy
             $name = strtoupper(substr(str_slug($request->get('name'), ""), 0, 3));
