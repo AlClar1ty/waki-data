@@ -215,10 +215,20 @@ class CsoController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'registration_date' => 'required',
-            'unregistration_date' => [
+            'registration_day' => 'required',
+            'registration_month' => 'required',
+            'registration_year' => 'required',
+            'unregistration_day' => [
                 'nullable',
-                'after:registration_date',
+                // 'after:registration_year',
+            ],
+            'unregistration_month' => [
+                'nullable',
+                // 'after:registration_year',
+            ],
+            'unregistration_year' => [
+                'nullable',
+                // 'after:registration_year',
             ],
             'phone' => [
                 'required',
@@ -242,10 +252,17 @@ class CsoController extends Controller
             return response()->json(['errors'=>$arr_Hasil]);
         }
         else {
+            //return response()->json(['errors'=>$request['province'],$request['district']]);
             $count = Cso::all()->count();
             $count++;
 
-            $data = $request->only('code', 'registration_date', 'unregistration_date', 'name', 'address', 'phone');
+            $data = $request->only('code', 'registration_day',
+            'registration_month',
+            'registration_year',
+            'unregistration_day',
+            'unregistration_month',
+            'unregistration_year',
+            'name', 'address', 'phone');
             $data['name'] = strtoupper($data['name']);
             $data['address'] = strtoupper($data['address']);
             $branch = Branch::find($request->get('branch'));
@@ -270,9 +287,19 @@ class CsoController extends Controller
                 $data['no_rekening'] = $request->get('no_rekening');
             }
 
+            $data['province'] = $request->get('province');
+            $data['district'] = $request->get('district');
+
+            $regis_date = $request->registration_year.'-'.$request->registration_month.'-'.$request->registration_day;
+            $data['registration_date'] = $regis_date;
+
+            $unregis_date = $request->unregistration_year.'-'.$request->unregistration_month.'-'.$request->unregistration_day;
+            $data['unregistration_date'] = $unregis_date;
+
             Cso::create($data); //INSERT INTO DATABASE (with created_at)
 
             return response()->json(['success'=>'Berhasil !!']);
+            //return redirect()->route('cso'); 
         }
     }
 

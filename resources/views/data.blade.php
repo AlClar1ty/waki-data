@@ -1568,7 +1568,33 @@
                     </div>
                     <div class="form-group">
                         <span>REGISTRATION DATE</span>
-                        <input id="edit-txtreg-date-dataundangan" type="date" name="registration_date" class="text-uppercase form-control" required>
+                        <div class="col-md-12 center-block" style="padding: 0;">
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select id="edit-txtreg-day-dataundangan" class="text-uppercase form-control" name="registration_day">
+                                <option value="" disabled selected>
+                                    HARI
+                                    <option value="" id="">{{ $data_undangans->registration_date }}</option>
+                                </option>
+                            </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <select class="text-uppercase form-control" name="registration_month">
+                                    <option value="" selected="selected" disabled="disabled" required>
+                                        BULAN
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <input type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                            </div>
+                        </div>
+
+                        <!-- <input id="edit-txtreg-date-dataundangan" type="date" name="registration_date" class="text-uppercase form-control" required> -->
                         <span class="invalid-feedback">
                             <strong></strong>
                         </span>

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Cso extends Model
 {
     protected $fillable = [
-        'code', 'registration_date', 'unregistration_date', 'name', 'address', 'phone', 'komisi', 'no_rekening',
+        'code', 'registration_date', 'name', 'address', 'phone', 'komisi', 'no_rekening', 'province', 'district',
         'branch_id', 'active', 
     ];
 

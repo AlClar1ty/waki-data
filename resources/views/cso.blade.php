@@ -42,14 +42,69 @@
         <h1 class="text-center">Add CSO</h1>
         <div class="form-group {{ $errors->has('name') ? ' has-error' : '' }}">
             <span>REGISTRATION DATE</span>
-            <input type="date" name="registration_date" class="text-uppercase form-control {{ $errors->has('registration_date') ? ' is-invalid' : '' }}" value="{{ old('registration_date') }}" required>
+            <div class="col-md-12 center-block" style="padding: 0;">
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <select class="text-uppercase form-control {{ $errors->has('registration_day') ? ' is-invalid' : '' }}" name="registration_day" value="{{ old('registration_day') }}">
+                        <option value="" selected="selected" disabled="disabled" required>
+                            HARI
+                            @for ($i = 1; $i <= 31; $i++)
+                                <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <select class="text-uppercase form-control {{ $errors->has('registration_month') ? ' is-invalid' : '' }}" name="registration_month" value="{{ old('registration_month') }}">
+                        <option value="" selected="selected" disabled="disabled" required>
+                            BULAN
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <input type="number" name="registration_year" class="form-control text-uppercase {{ $errors->has('registration_year') ? ' is-invalid' : '' }}" placeholder="TAHUN" value="{{ old('registration_year') }}" required>
+                </div>
+            </div>
+            <!-- <input type="date" name="registration_date" class="text-uppercase form-control {{ $errors->has('registration_date') ? ' is-invalid' : '' }}" value="{{ old('registration_date') }}" required> -->
+
             <span class="invalid-feedback">
                 <strong>{{ $errors->first('registration_date') }}</strong>
             </span>
         </div>
         <div class="form-group {{ $errors->has('unregistration_date') ? ' has-error' : '' }}">
             <span>UNREGISTRATION DATE</span>
-            <input type="date" name="unregistration_date" class="text-uppercase form-control {{ $errors->has('unregistration_date') ? ' is-invalid' : '' }}" value="{{ old('unregistration_date') }}" >
+            <div class="col-md-12 center-block" style="padding: 0;">
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <select class="text-uppercase form-control {{ $errors->has('unregistration_day') ? ' is-invalid' : '' }}" name="unregistration_day" value="{{ old('unregistration_day') }}">
+                        <option value="" selected="selected" disabled="disabled" required>
+                            HARI
+                            @for ($i = 1; $i <= 31; $i++)
+                                <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <select class="text-uppercase form-control {{ $errors->has('unregistration_month') ? ' is-invalid' : '' }}" name="unregistration_month" value="{{ old('unregistration_month') }}">
+                        <option value="" selected="selected" disabled="disabled" required>
+                            BULAN
+                            @for ($i = 1; $i <= 12; $i++)
+                                <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                            @endfor
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                    <input type="number" name="unregistration_year" class="form-control text-uppercase {{ $errors->has('unregistration_year') ? ' is-invalid' : '' }}" placeholder="TAHUN" value="{{ old('unregistration_year') }}" required>
+                </div>
+            </div>
+            <!-- <input type="date" name="unregistration_date" class="text-uppercase form-control {{ $errors->has('unregistration_date') ? ' is-invalid' : '' }}" value="{{ old('unregistration_date') }}" > -->
             <span class="invalid-feedback">
                 <strong>{{ $errors->first('unregistration_date') }}</strong>
             </span>
@@ -466,7 +521,7 @@
             function completeHandlerAdd(event){
                 var hasil = JSON.parse(event.target.responseText);
                 var formDOM = _("actionAdd");
-
+                //console.log(hasil);
                 for (var key of formAdd.keys()) {
                     $("#actionAdd").find("input[name="+key+"]").removeClass("is-invalid");
                     $("#actionAdd").find("select[name="+key+"]").removeClass("is-invalid");
