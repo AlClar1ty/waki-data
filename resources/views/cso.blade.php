@@ -380,6 +380,33 @@
                     </div>
                     <div class="form-group">
                         <span>REGISTRATION DATE</span>
+                        <!-- <div class="col-md-12 center-block" style="padding: 0;">
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select id="txtregday-cso" class="text-uppercase form-control" name="registration_day">
+                                <option value="" disabled selected>
+                                    HARI
+                                    @for ($i = 1; $i <= 31; $i++)
+                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </option>
+                            </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <select id="txtregmonth-cso" class="text-uppercase form-control" name="registration_month">
+                                    <option value="" selected="selected" disabled="disabled" required>
+                                        BULAN
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <input id="txtregyear-cso" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                            </div>
+                        </div> -->
                         <input class="text-uppercase form-control" type="date" name="registration_date" id="txtregdate-cso">
                         <span class="invalid-feedback">
                             <strong></strong>
@@ -721,9 +748,18 @@
 
     //The Branch field is selected based on what CSO has, when Edit Button clicked
     $(".btn-editCso").click(function(e) {
+        
         var dataCso = GetListCsoData(this.name);
         var countryName = dataCso.country;
         var branches = "";
+
+        var cso_reg_date = dataCso.reg_date;
+        var cso_splitregdate = cso_reg_date.split('-');
+        var cso_reg_year = cso_splitregdate[0];
+        var cso_reg_month = cso_splitregdate[1];
+        var cso_reg_day = cso_splitregdate[2];
+
+        alert(cso_reg_day);
 
         $.ajax({
             headers: {

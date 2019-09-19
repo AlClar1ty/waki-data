@@ -516,7 +516,7 @@ function GetListCsoData(idx){
     var cso_unreg_date = element_tableRows[idx].cells[11].innerHTML;
     
     return {kode : cso_kode, nama : cso_nama, address : cso_address, country : cso_country, branch : cso_branch, 
-        phone : cso_phone, komisi : cso_komisi, reg_date : cso_reg_date, province : cso_province, district : cso_district, no_rekening : cso_no_rekening,
+        phone : cso_phone, komisi : cso_komisi, reg_date : cso_reg_date, cso_reg_day, cso_reg_month, cso_reg_year, province : cso_province, district : cso_district, no_rekening : cso_no_rekening,
         unreg_date : cso_unreg_date};
 }
 

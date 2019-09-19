@@ -1414,8 +1414,35 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <span>REGISTRATION DATE</span>
-                        <input id="edit-txtreg-date-dataoutsite" type="date" name="registration_date" class="text-uppercase form-control" required>
+                        <span>REGISTRATION DATE (DD/MM/YYYY)</span>
+                        <div class="col-md-12 center-block" style="padding: 0;">
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select id="edit-txtreg-day-dataoutsite" class="text-uppercase form-control" name="registration_day">
+                                <option value="" disabled selected>
+                                    HARI
+                                    @for ($i = 1; $i <= 31; $i++)
+                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </option>
+                            </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <select id="edit-txtreg-month-dataoutsite" class="text-uppercase form-control" name="registration_month">
+                                    <option value="" selected="selected" disabled="disabled" required>
+                                        BULAN
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <input id="edit-txtreg-year-dataoutsite" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                            </div>
+                        </div>
+                        <!-- <input id="edit-txtreg-date-dataoutsite" type="date" name="registration_date" class="text-uppercase form-control" required> -->
                         <span class="invalid-feedback">
                             <strong></strong>
                         </span>
@@ -1567,19 +1594,21 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <span>REGISTRATION DATE</span>
+                        <span>REGISTRATION DATE (DD/MM/YYYY)</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
                             <select id="edit-txtreg-day-dataundangan" class="text-uppercase form-control" name="registration_day">
                                 <option value="" disabled selected>
                                     HARI
-                                    <option value="" id="">{{ $data_undangans->registration_date }}</option>
+                                    @for ($i = 1; $i <= 31; $i++)
+                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                    @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select class="text-uppercase form-control" name="registration_month">
+                                <select id="edit-txtreg-month-dataundangan" class="text-uppercase form-control" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -1590,7 +1619,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="edit-txtreg-year-dataundangan" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
                             </div>
                         </div>
 
@@ -1607,8 +1636,35 @@
                         </span>
                     </div>
                     <div class="form-group">
-                        <span>BIRTH DATE</span>
-                        <input id="edit-txtbirt-date-dataundangan" type="date" name="birth_date" class="text-uppercase form-control"required>
+                        <span>BIRTH DATE (DD/MM/YYYY)</span>
+                        <div class="col-md-12 center-block" style="padding: 0;">
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select id="edit-txtbirth-day-dataundangan" class="text-uppercase form-control" name="birth_day">
+                                <option value="" disabled selected>
+                                    HARI
+                                    @for ($i = 1; $i <= 31; $i++)
+                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </option>
+                            </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <select id="edit-txtbirth-month-dataundangan" class="text-uppercase form-control" name="birth_month">
+                                    <option value="" selected="selected" disabled="disabled" required>
+                                        BULAN
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <input id="edit-txtbirth-year-dataundangan" type="number" name="birth_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                            </div>
+                        </div>
+                        <!-- <input id="edit-txtbirt-date-dataundangan" type="date" name="birth_date" class="text-uppercase form-control"required> -->
                         <span class="invalid-feedback">
                             <strong></strong>
                         </span>
@@ -1783,8 +1839,35 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <span>REGISTRATION DATE</span>
-                        <input id="edit-txtreg-date-datatherapy" type="date" name="registration_date" class="text-uppercase form-control" required>
+                        <span>REGISTRATION DATE (DD/MM/YYYY)</span>
+                        <div class="col-md-12 center-block" style="padding: 0;">
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select id="edit-txtreg-day-datatherapy" class="text-uppercase form-control" name="registration_day">
+                                <option value="" disabled selected>
+                                    HARI
+                                    @for ($i = 1; $i <= 31; $i++)
+                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                    @endfor
+                                </option>
+                            </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <select id="edit-txtreg-month-datatherapy" class="text-uppercase form-control" name="registration_month">
+                                    <option value="" selected="selected" disabled="disabled" required>
+                                        BULAN
+                                        @for ($i = 1; $i <= 12; $i++)
+                                            <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        @endfor
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                                <input id="edit-txtreg-year-datatherapy" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                            </div>
+                        </div>
+                        <!-- <input id="edit-txtreg-date-datatherapy" type="date" name="registration_date" class="text-uppercase form-control" required> -->
                         <span class="invalid-feedback">
                             <strong></strong>
                         </span>
@@ -2974,7 +3057,39 @@
                     $('#edit-txtaddress-datatherapy').val(data['DataTherapy']['address']);
                     $('#edit-txtbirt-date-datatherapy').val(data['DataTherapy']['birth_date']);
                     $('#edit-txtname-datatherapy').val(data['DataTherapy']['name']);
-                    $('#edit-txtreg-date-datatherapy').val(data['DataTherapy']['registration_date']);
+
+                    var regis_date = data['DataTherapy']['registration_date'];
+                    var split_regis = regis_date.split('-');
+                    var regis_year = split_regis[0];
+
+                    var regis_month = split_regis[1];
+                    if (regis_month[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitM1 = regis_month[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-month-datatherapy').val(hasil_splitM1);
+                    }else{
+                        var hasil_splitM2 = regis_month;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-month-datatherapy').val(hasil_splitM2);
+                    };
+                    //console.log("ini bulan " + regis_month);                    
+
+                    var regis_day = split_regis[2];
+                    if (regis_day[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitD1 = regis_day[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-day-datatherapy').val(hasil_splitD1);
+                    }else{
+                        var hasil_splitD2 = regis_day;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-day-datatherapy').val(hasil_splitD2);
+                    };
+                    $('#edit-txtreg-year-datatherapy').val(split_regis[0]);
+                    // $('#edit-txtreg-date-datatherapy').val(data['DataTherapy']['registration_date']);
+
+                    
                     $('#edit-txttype-cust-datatherapy').val(data['TypeCust']['id']);
                     $('#edit-txtcode-datatherapy').val(data['DataTherapy']['code']);
                     $("#modal-EditDataTherapy").modal("show");
@@ -3034,7 +3149,39 @@
                     $('#edit-txtaddress-dataoutsite').val(data['DataOutside']['address']);
                     $('#edit-txtbirt-date-dataoutsite').val(data['DataOutside']['birth_date']);
                     $('#edit-txtname-dataoutsite').val(data['DataOutside']['name']);
-                    $('#edit-txtreg-date-dataoutsite').val(data['DataOutside']['registration_date']);
+
+                    var regis_date = data['DataOutside']['registration_date'];
+                    var split_regis = regis_date.split('-');
+                    var regis_year = split_regis[0];
+
+                    var regis_month = split_regis[1];
+                    if (regis_month[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitM1 = regis_month[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-month-dataoutsite').val(hasil_splitM1);
+                    }else{
+                        var hasil_splitM2 = regis_month;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-month-dataoutsite').val(hasil_splitM2);
+                    };
+                    //console.log("ini bulan " + regis_month);                    
+
+                    var regis_day = split_regis[2];
+                    if (regis_day[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitD1 = regis_day[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-day-dataoutsite').val(hasil_splitD1);
+                    }else{
+                        var hasil_splitD2 = regis_day;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-day-dataoutsite').val(hasil_splitD2);
+                    };
+                    $('#edit-txtreg-year-dataoutsite').val(split_regis[0]);
+                    // $('#edit-txtreg-date-dataoutsite').val(data['DataOutside']['registration_date']);
+
+
                     $('#edit-txttype-cust-dataoutsite').val(data['TypeCust']['id']);
                     $('#edit-txtcode-dataoutsite').val(data['DataOutside']['code']);
                     $("#modal-EditDataOutsite").modal("show");
@@ -3105,9 +3252,75 @@
                     }, 500);
                     $('#edit-txtphone-dataundangan').val(data['DataUndangan']['phone']);
                     $('#edit-txtaddress-dataundangan').val(data['DataUndangan']['address']);
-                    $('#edit-txtbirt-date-dataundangan').val(data['DataUndangan']['birth_date']);
+
+                    var b_date = data['DataUndangan']['birth_date'];
+                    var split_bdate = b_date.split('-');
+                    var bdate_year = split_bdate[0];
+
+                    var bdate_month = split_bdate[1];
+                    if (bdate_month[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitM1 = bdate_month[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtbirth-month-dataundangan').val(hasil_splitM1);
+                    }else{
+                        var hasil_splitM2 = bdate_month;
+                        //alert("tidak ada");
+                        $('#edit-txtbirth-month-dataundangan').val(hasil_splitM2);
+                    };
+
+                    var bdate_day = split_bdate[2];
+                    if (bdate_day[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitD1 = bdate_day[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtbirth-day-dataundangan').val(hasil_splitD1);
+                    }else{
+                        var hasil_splitD2 = bdate_day;
+                        //alert("tidak ada");
+                        $('#edit-txtbirth-day-dataundangan').val(hasil_splitD2);
+                    };
+
+                    $('#edit-txtbirth-year-dataundangan').val(split_bdate[0]);
+                    //$('#edit-txtbirt-date-dataundangan').val(data['DataUndangan']['birth_date']);
+
                     $('#edit-txtname-dataundangan').val(data['DataUndangan']['name']);
-                    $('#edit-txtreg-date-dataundangan').val(data['DataUndangan']['registration_date']);
+                    
+                    //disini mecah tanggalnya
+                    var regis_date = data['DataUndangan']['registration_date'];
+                    var split_regis = regis_date.split('-');
+                    var regis_year = split_regis[0];
+
+                    var regis_month = split_regis[1];
+                    if (regis_month[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitM1 = regis_month[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-month-dataundangan').val(hasil_splitM1);
+                    }else{
+                        var hasil_splitM2 = regis_month;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-month-dataundangan').val(hasil_splitM2);
+                    };
+                    //console.log("ini bulan " + regis_month);                    
+
+                    var regis_day = split_regis[2];
+                    if (regis_day[0].includes("0")) {
+                        //alert("ada 0 nya");
+                        var hasil_splitD1 = regis_day[1];
+                        //alert(hasilsplit);
+                        $('#edit-txtreg-day-dataundangan').val(hasil_splitD1);
+                    }else{
+                        var hasil_splitD2 = regis_day;
+                        //alert("tidak ada");
+                        $('#edit-txtreg-day-dataundangan').val(hasil_splitD2);
+                    };
+                    $('#edit-txtreg-year-dataundangan').val(split_regis[0]);
+
+                    //console.log("ini tahun: " + regis_year + "ini bulan " + regis_day);
+                    //console.log(data['DataUndangan']['registration_date']);
+                    // $('#edit-txtreg-date-dataundangan').val(data['DataUndangan']['registration_date']);
+
                     $('#edit-txttype-cust-dataundangan').val(data['TypeCust']['id']);
                     $('#edit-txtcode-dataundangan').val(data['DataUndangan']['code']);
                     $("#modal-EditDataUndangan").modal("show");
