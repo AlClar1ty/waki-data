@@ -108,7 +108,7 @@
                         <span>REGISTRATION DATE</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select class="text-uppercase form-control" name="registration_day">
+                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
@@ -119,7 +119,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select class="text-uppercase form-control" name="registration_month">
+                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -130,7 +130,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <span class="invalid-feedback">
@@ -148,7 +148,7 @@
                         <span>BIRTH DATE</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select class="text-uppercase form-control" name="birth_day">
+                            <select id="birth_day" class="text-uppercase form-control" name="birth_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
@@ -159,7 +159,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select class="text-uppercase form-control" name="birth_month">
+                                <select id="birth_month" class="text-uppercase form-control" name="birth_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -170,7 +170,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input type="number" name="birth_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="birth_year" type="number" name="birth_year" class="form-control text-uppercase" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <span class="invalid-feedback">
@@ -333,7 +333,7 @@
                         <span>REGISTRATION DATE</span> <br>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select class="text-uppercase form-control" name="registration_day">
+                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
@@ -344,7 +344,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select class="text-uppercase form-control" name="registration_month">
+                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -355,7 +355,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
                             </div>
                             <span class="invalid-feedback">
                                 <strong></strong>
@@ -516,7 +516,7 @@
                     <span>REGISTRATION DATE</span>
                     <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select class="text-uppercase form-control" name="registration_day">
+                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
@@ -527,7 +527,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select class="text-uppercase form-control" name="registration_month">
+                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -538,7 +538,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
                             </div>
                         </div>
                     <span class="invalid-feedback">
@@ -2309,6 +2309,47 @@
     @endphp
 @endif
 <script type="text/javascript">
+    //tgl kabisat
+        $('#birth_month, #birth_year').on("change paste keyup", function() {
+            if ($('#birth_month').val()==2) {
+                if($('#birth_year').val()%4==0){
+                    $("#29").show();
+                    if($('#birth_day').val() > 29){
+                        $('#birth_day').val(29);
+                    }
+                }
+                else{
+                    $("#29").hide();
+                    if($('#birth_day').val() > 28){
+                        $('#birth_day').val(28);
+                    }
+                }
+                $("#30").hide();
+                $("#31").hide();
+            }
+            else if ($('#birth_month').val()==1||$('#birth_month').val()==3||$('#birth_month').val()==5||$('#birth_month').val()==7||
+                $('#birth_month').val()==8||$('#birth_month').val()==10||$('#birth_month').val()==12){
+                $("#30").show();
+                $("#31").show();
+            }
+            else
+            {
+                $("#30").show();
+                $("#31").hide();
+                if($('#birth_day').val() > 30){
+                    $('#birth_day').val(30);
+                }
+            }
+            console.log($('#birth_year').val().length);
+            if(parseInt($('#birth_year').val()) > parseInt($('#birth_year').attr('max')) && $('#birth_year').val().length > 3){
+                $('#birth_year').val($('#birth_year').attr('max'));
+            }
+            if(parseInt($('#birth_year').val()) < parseInt($('#birth_year').attr('min')) && $('#birth_year').val().length > 3){
+                $('#birth_year').val($('#birth_year').attr('min'));
+            }  
+        });
+</script>
+<script type="text/javascript">
 
     // $(".btn-deleteDataOutsite-list").click(function(){
     //     id=($(this).val());
@@ -3352,6 +3393,7 @@
         //     ajax.setRequestHeader("X-CSRF-TOKEN",$('meta[name="csrf-token"]').attr('content'));
         //     ajax.send(frmAddUndangan);
         // });
+
         function progressHandlerUndangan(event){
             document.getElementById("btn-actionAddDataUndangan").innerHTML = "UPLOADING...";
         }

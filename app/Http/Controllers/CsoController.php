@@ -317,10 +317,20 @@ class CsoController extends Controller
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
-            'registration_date' => 'required',
-            'unregistration_date' => [
+            'registration_day' => 'required',
+            'registration_month' => 'required',
+            'registration_year' => 'required',
+            'unregistration_day' => [
                 'nullable',
-                'after:registration_date',
+                //'after:registration_date',
+            ],
+            'unregistration_month' => [
+                'nullable',
+                //'after:registration_date',
+            ],
+            'unregistration_year' => [
+                'nullable',
+                //'after:registration_date',
             ],
             'phone' => [
                 'required',
@@ -344,10 +354,16 @@ class CsoController extends Controller
             return response()->json(['errors'=>$arr_Hasil]);
         }
         else {
-            $data = $request->only('registration_date', 'unregistration_date', 'name', 'address', 'phone', 'komisi', 'no_rekening', 'province', 'district');
+            $data = $request->only('registration_day', 'registration_month', 'registration_year', 'unregistration_day', 'unregistration_month', 'unregistration_year', 'name', 'address', 'phone', 'komisi', 'no_rekening', 'province', 'district');
             $data['name'] = strtoupper($data['name']);
             $data['address'] = strtoupper($data['address']);
             $data['branch_id'] = $request->get('branch');
+
+            $regis_date = $request->registration_year.'-'.$request->registration_month.'-'.$request->registration_day;
+            $data['registration_date'] = $regis_date;
+
+            $unregis_date = $request->unregistration_year.'-'.$request->unregistration_month.'-'.$request->unregistration_day;
+            $data['unregistration_date'] = $unregis_date;
 
             // DB::table('csos')
             //     ->where('id', $request->get('id'))
