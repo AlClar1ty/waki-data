@@ -106,9 +106,9 @@
                 <div id="input-DataUndangan" class="d-none">
                     <div class="form-group">
                         <span>REGISTRATION DATE</span>
-                        <div class="col-md-12 center-block" style="padding: 0;">
+                        <div id="div_test" class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
+                            <select class="text-uppercase form-control reg_day_und" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
@@ -119,7 +119,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
+                                <select class="text-uppercase form-control reg_month_und" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -130,7 +130,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input type="number" name="registration_year" class="form-control text-uppercase reg_year_und" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <span class="invalid-feedback">
@@ -147,19 +147,19 @@
                      <div class="form-group">
                         <span>BIRTH DATE</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
-                            <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="birth_day" class="text-uppercase form-control" name="birth_day">
+                            <div id="div_test2" class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
+                            <select class="text-uppercase form-control birth_day_und" name="birth_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'u'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="birth_month" class="text-uppercase form-control" name="birth_month">
+                                <select class="text-uppercase form-control birth_month_und" name="birth_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -170,7 +170,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="birth_year" type="number" name="birth_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input type="number" name="birth_year" class="form-control text-uppercase birth_year_und" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <span class="invalid-feedback">
@@ -333,18 +333,18 @@
                         <span>REGISTRATION DATE</span> <br>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
+                            <select class="text-uppercase form-control reg_day_out" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'o'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
+                                <select class="text-uppercase form-control reg_month_out" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -355,7 +355,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input type="number" name="registration_year" class="form-control text-uppercase reg_year_out" placeholder="TAHUN" required>
                             </div>
                             <span class="invalid-feedback">
                                 <strong></strong>
@@ -516,18 +516,18 @@
                     <span>REGISTRATION DATE</span>
                     <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="birth_day" class="text-uppercase form-control" name="registration_day">
+                            <select class="text-uppercase form-control reg_day_the" name="registration_day">
                                 <option value="" selected="selected" disabled="disabled" required>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 't'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="birth_month" class="text-uppercase form-control" name="registration_month">
+                                <select class="text-uppercase form-control reg_month_the" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -538,7 +538,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="birth_year" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input type="number" name="registration_year" class="form-control text-uppercase reg_year_the" placeholder="TAHUN" required>
                             </div>
                         </div>
                     <span class="invalid-feedback">
@@ -1417,18 +1417,18 @@
                         <span>REGISTRATION DATE (DD/MM/YYYY)</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="edit-txtreg-day-dataoutsite" class="text-uppercase form-control" name="registration_day">
+                            <select id="edit-txtreg-day-dataoutsite" class="text-uppercase form-control upreg_day_out" name="registration_day">
                                 <option value="" disabled selected>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'uo'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="edit-txtreg-month-dataoutsite" class="text-uppercase form-control" name="registration_month">
+                                <select id="edit-txtreg-month-dataoutsite" class="text-uppercase form-control upreg_month_out" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -1439,7 +1439,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="edit-txtreg-year-dataoutsite" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="edit-txtreg-year-dataoutsite" type="number" name="registration_year" class="form-control text-uppercase upreg_year_out" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <!-- <input id="edit-txtreg-date-dataoutsite" type="date" name="registration_date" class="text-uppercase form-control" required> -->
@@ -1597,18 +1597,18 @@
                         <span>REGISTRATION DATE (DD/MM/YYYY)</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="edit-txtreg-day-dataundangan" class="text-uppercase form-control" name="registration_day">
+                            <select id="edit-txtreg-day-dataundangan" class="text-uppercase form-control upreg_day_und" name="registration_day">
                                 <option value="" disabled selected>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'ur'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="edit-txtreg-month-dataundangan" class="text-uppercase form-control" name="registration_month">
+                                <select id="edit-txtreg-month-dataundangan" class="text-uppercase form-control upreg_month_und" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -1619,7 +1619,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="edit-txtreg-year-dataundangan" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="edit-txtreg-year-dataundangan" type="number" name="registration_year" class="form-control text-uppercase upreg_year_und" placeholder="TAHUN" required>
                             </div>
                         </div>
 
@@ -1639,18 +1639,18 @@
                         <span>BIRTH DATE (DD/MM/YYYY)</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="edit-txtbirth-day-dataundangan" class="text-uppercase form-control" name="birth_day">
+                            <select id="edit-txtbirth-day-dataundangan" class="text-uppercase form-control upbirth_day_und" name="birth_day">
                                 <option value="" disabled selected>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'ub'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="edit-txtbirth-month-dataundangan" class="text-uppercase form-control" name="birth_month">
+                                <select id="edit-txtbirth-month-dataundangan" class="text-uppercase form-control upbirth_month_und" name="birth_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -1661,7 +1661,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="edit-txtbirth-year-dataundangan" type="number" name="birth_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="edit-txtbirth-year-dataundangan" type="number" name="birth_year" class="form-control text-uppercase upbirth_year_und" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <!-- <input id="edit-txtbirt-date-dataundangan" type="date" name="birth_date" class="text-uppercase form-control"required> -->
@@ -1842,18 +1842,18 @@
                         <span>REGISTRATION DATE (DD/MM/YYYY)</span>
                         <div class="col-md-12 center-block" style="padding: 0;">
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                            <select id="edit-txtreg-day-datatherapy" class="text-uppercase form-control" name="registration_day">
+                            <select id="edit-txtreg-day-datatherapy" class="text-uppercase form-control upreg_day_the" name="registration_day">
                                 <option value="" disabled selected>
                                     HARI
                                     @for ($i = 1; $i <= 31; $i++)
-                                        <option value="{{$i}}" id="{{$i}}">{{$i}}</option>
+                                        <option value="{{$i}}" id="{{$i . 'ut'}}">{{$i}}</option>
                                     @endfor
                                 </option>
                             </select>
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <select id="edit-txtreg-month-datatherapy" class="text-uppercase form-control" name="registration_month">
+                                <select id="edit-txtreg-month-datatherapy" class="text-uppercase form-control upreg_month_the" name="registration_month">
                                     <option value="" selected="selected" disabled="disabled" required>
                                         BULAN
                                         @for ($i = 1; $i <= 12; $i++)
@@ -1864,7 +1864,7 @@
                             </div>
 
                             <div class="form-group frm-group-select col-sm-4 bd" style="padding-left:0px;padding-right:0px;width:190px;">
-                                <input id="edit-txtreg-year-datatherapy" type="number" name="registration_year" class="form-control text-uppercase" placeholder="TAHUN" required>
+                                <input id="edit-txtreg-year-datatherapy" type="number" name="registration_year" class="form-control text-uppercase upreg_year_the" placeholder="TAHUN" required>
                             </div>
                         </div>
                         <!-- <input id="edit-txtreg-date-datatherapy" type="date" name="registration_date" class="text-uppercase form-control" required> -->
@@ -2310,45 +2310,417 @@
 @endif
 <script type="text/javascript">
     //tgl kabisat
-        $('#birth_month, #birth_year').on("change paste keyup", function() {
-            if ($('#birth_month').val()==2) {
-                if($('#birth_year').val()%4==0){
+    //register undangan
+    $('.reg_month_und, .reg_year_und').on("change paste keyup", function() {
+            if ($('.reg_month_und').val()==2) {
+                if($('.reg_year_und').val()%4==0){
                     $("#29").show();
-                    if($('#birth_day').val() > 29){
-                        $('#birth_day').val(29);
+                    if($('.reg_day_und').val() > 29){
+                        $('.reg_day_und').val(29);
                     }
                 }
                 else{
                     $("#29").hide();
-                    if($('#birth_day').val() > 28){
-                        $('#birth_day').val(28);
+                    if($('.reg_day_und').val() > 28){
+                        $('.reg_day_und').val(28);
                     }
                 }
                 $("#30").hide();
                 $("#31").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
             }
-            else if ($('#birth_month').val()==1||$('#birth_month').val()==3||$('#birth_month').val()==5||$('#birth_month').val()==7||
-                $('#birth_month').val()==8||$('#birth_month').val()==10||$('#birth_month').val()==12){
+            else if ($('.reg_month_und').val()==1||$('.reg_month_und').val()==3||$('.reg_month_und').val()==5||$('.reg_month_und').val()==7||
+                $('.reg_month_und').val()==8||$('.reg_month_und').val()==10||$('.reg_month_und').val()==12){
                 $("#30").show();
                 $("#31").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
             }
             else
             {
                 $("#30").show();
                 $("#31").hide();
-                if($('#birth_day').val() > 30){
-                    $('#birth_day').val(30);
+                if($('.reg_day_und').val() > 30){
+                    $('.reg_day_und').val(30);
                 }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
             }
-            console.log($('#birth_year').val().length);
-            if(parseInt($('#birth_year').val()) > parseInt($('#birth_year').attr('max')) && $('#birth_year').val().length > 3){
-                $('#birth_year').val($('#birth_year').attr('max'));
+            console.log($('.reg_year_und').val().length);
+            if(parseInt($('.reg_year_und').val()) > parseInt($('.reg_year_und').attr('max')) && $('.reg_year_und').val().length > 3){
+                $('.reg_year_und').val($('.reg_year_und').attr('max'));
             }
-            if(parseInt($('#birth_year').val()) < parseInt($('#birth_year').attr('min')) && $('#birth_year').val().length > 3){
-                $('#birth_year').val($('#birth_year').attr('min'));
+            if(parseInt($('.reg_year_und').val()) < parseInt($('.reg_year_und').attr('min')) && $('.reg_year_und').val().length > 3){
+                $('.reg_year_und').val($('.reg_year_und').attr('min'));
             }  
         });
+    //end register undangan
+    
+    //update register undangan
+    $('.upreg_month_und, .upreg_year_und').on("change paste keyup", function() {
+        if ($('.upreg_month_und').val()==2) {
+                if($('.upreg_year_und').val()%4==0){
+                    $("#29ur").show();
+                    if($('.upreg_day_und').val() > 29){
+                        $('.upreg_day_und').val(29);
+                    }
+                }
+                else{
+                    $("#29ur").hide();
+                    if($('.upreg_day_und').val() > 28){
+                        $('.upreg_day_und').val(28);
+                    }
+                }
+                $("#30ur").hide();
+                $("#31ur").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
+            }
+            else if ($('.upreg_month_und').val()==1||$('.upreg_month_und').val()==3||$('.upreg_month_und').val()==5||$('.upreg_month_und').val()==7||
+                $('.upreg_month_und').val()==8||$('.upreg_month_und').val()==10||$('.upreg_month_und').val()==12){
+                $("#30ur").show();
+                $("#31ur").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
+            }
+            else
+            {
+                $("#30ur").show();
+                $("#31ur").hide();
+                if($('.upreg_day_und').val() > 30){
+                    $('.upreg_day_und').val(30);
+                }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
+            }
+            console.log($('.upreg_year_und').val().length);
+            if(parseInt($('.upreg_year_und').val()) > parseInt($('.upreg_year_und').attr('max')) && $('.upreg_year_und').val().length > 3){
+                $('.upreg_year_und').val($('.upreg_year_und').attr('max'));
+            }
+            if(parseInt($('.upreg_year_und').val()) < parseInt($('.upreg_year_und').attr('min')) && $('.upreg_year_und').val().length > 3){
+                $('.upreg_year_und').val($('.upreg_year_und').attr('min'));
+            }  
+        });
+    //end update register undangan    
+
+    //birth date undangan
+    $('.birth_month_und, .birth_year_und').on("change paste keyup", function() {
+            if ($('.birth_month_und').val()==2) {
+                if($('.birth_year_und').val()%4==0){
+                    $("#29u").show();
+                    if($('.birth_day_und').val() > 29){
+                        $('.birth_day_und').val(29);
+                    }
+                }
+                else{
+                    $("#29u").hide();
+                    if($('.birth_day_und').val() > 28){
+                        $('.birth_day_und').val(28);
+                    }
+                }
+                $("#30u").hide();
+                $("#31u").hide();
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("masuk kabisat2 " + test + " " + test2);
+            }
+            else if ($('.birth_month_und').val()==1||$('.birth_month_und').val()==3||$('.birth_month_und').val()==5||$('.birth_month_und').val()==7||
+                $('.birth_month_und').val()==8||$('.birth_month_und').val()==10||$('.birth_month_und').val()==12){
+                $("#30u").show();
+                $("#31u").show();
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("tidak kabisat2 " + test + " " + test2);
+            }
+            else
+            {
+                $("#30u").show();
+                $("#31u").hide();
+                if($('.birth_day_und').val() > 30){
+                    $('.birth_day_und').val(30);
+                }
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("kabisat2 " + test + " " + test2);
+            }
+            console.log($('.birth_year_und').val().length);
+            if(parseInt($('.birth_year_und').val()) > parseInt($('.birth_year_und').attr('max')) && $('.birth_year_und').val().length > 3){
+                $('.birth_year_und').val($('.birth_year_und').attr('max'));
+                //console.log("aaaaa");
+            }
+            if(parseInt($('.birth_year_und').val()) < parseInt($('.birth_year_und').attr('min')) && $('.birth_year_und').val().length > 3){
+                $('.birth_year_und').val($('.birth_year_und').attr('min'));
+                //console.log("bbbb");
+            }  
+        });
+    //end birth date undangan
+
+    //update birth date undangan
+    $('.upbirth_month_und, .upbirth_year_und').on("change paste keyup", function() {
+            if ($('.upbirth_month_und').val()==2) {
+                if($('.upbirth_year_und').val()%4==0){
+                    $("#29ub").show();
+                    if($('.upbirth_day_und').val() > 29){
+                        $('.upbirth_day_und').val(29);
+                    }
+                }
+                else{
+                    $("#29ub").hide();
+                    if($('.upbirth_day_und').val() > 28){
+                        $('.upbirth_day_und').val(28);
+                    }
+                }
+                $("#30ub").hide();
+                $("#31ub").hide();
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("masuk kabisat2 " + test + " " + test2);
+            }
+            else if ($('.upbirth_month_und').val()==1||$('.upbirth_month_und').val()==3||$('.upbirth_month_und').val()==5||$('.upbirth_month_und').val()==7||
+                $('.upbirth_month_und').val()==8||$('.upbirth_month_und').val()==10||$('.upbirth_month_und').val()==12){
+                $("#30ub").show();
+                $("#31ub").show();
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("tidak kabisat2 " + test + " " + test2);
+            }
+            else
+            {
+                $("#30ub").show();
+                $("#31ub").hide();
+                if($('.upbirth_day_und').val() > 30){
+                    $('.upbirth_day_und').val(30);
+                }
+                // var test = $('.birth_month2').val();
+                // var test2 = $('.birth_day2').val();
+                // console.log("kabisat2 " + test + " " + test2);
+            }
+            console.log($('.upbirth_year_und').val().length);
+            if(parseInt($('.upbirth_year_und').val()) > parseInt($('.upbirth_year_und').attr('max')) && $('.upbirth_year_und').val().length > 3){
+                $('.upbirth_year_und').val($('.upbirth_year_und').attr('max'));
+                //console.log("aaaaa");
+            }
+            if(parseInt($('.upbirth_year_und').val()) < parseInt($('.upbirth_year_und').attr('min')) && $('.upbirth_year_und').val().length > 3){
+                $('.upbirth_year_und').val($('.upbirth_year_und').attr('min'));
+                //console.log("bbbb");
+            }  
+        });
+    //end update birth date undangan
+
+    //register outsite
+    $('.reg_month_out, .reg_year_out').on("change paste keyup", function() {
+            if ($('.reg_month_out').val()==2) {
+                if($('.reg_year_out').val()%4==0){
+                    $("#29o").show();
+                    if($('.reg_day_out').val() > 29){
+                        $('.reg_day_out').val(29);
+                    }
+                }
+                else{
+                    $("#29o").hide();
+                    if($('.reg_day_out').val() > 28){
+                        $('.reg_day_out').val(28);
+                    }
+                }
+                $("#30o").hide();
+                $("#31o").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
+            }
+            else if ($('.reg_month_out').val()==1||$('.reg_month_out').val()==3||$('.reg_month_out').val()==5||$('.reg_month_out').val()==7||
+                $('.reg_month_out').val()==8||$('.reg_month_out').val()==10||$('.reg_month_out').val()==12){
+                $("#30o").show();
+                $("#31o").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
+            }
+            else
+            {
+                $("#30o").show();
+                $("#31o").hide();
+                if($('.reg_day_out').val() > 30){
+                    $('.reg_day_out').val(30);
+                }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
+            }
+            console.log($('.reg_year_out').val().length);
+            if(parseInt($('.reg_year_out').val()) > parseInt($('.reg_year_out').attr('max')) && $('.reg_year_out').val().length > 3){
+                $('.reg_year_out').val($('.reg_year_out').attr('max'));
+            }
+            if(parseInt($('.reg_year_out').val()) < parseInt($('.reg_year_out').attr('min')) && $('.reg_year_out').val().length > 3){
+                $('.reg_year_out').val($('.reg_year_out').attr('min'));
+            }  
+        });
+    //end register outsite
+
+    //update register outsite
+    $('.upreg_month_out, .upreg_year_out').on("change paste keyup", function() {
+            if ($('.upreg_month_out').val()==2) {
+                if($('.upreg_year_out').val()%4==0){
+                    $("#29uo").show();
+                    if($('.upreg_day_out').val() > 29){
+                        $('.upreg_day_out').val(29);
+                    }
+                }
+                else{
+                    $("#29uo").hide();
+                    if($('.upreg_day_out').val() > 28){
+                        $('.upreg_day_out').val(28);
+                    }
+                }
+                $("#30uo").hide();
+                $("#31uo").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
+            }
+            else if ($('.upreg_month_out').val()==1||$('.upreg_month_out').val()==3||$('.upreg_month_out').val()==5||$('.upreg_month_out').val()==7||
+                $('.upreg_month_out').val()==8||$('.upreg_month_out').val()==10||$('.upreg_month_out').val()==12){
+                $("#30uo").show();
+                $("#31uo").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
+            }
+            else
+            {
+                $("#30uo").show();
+                $("#31uo").hide();
+                if($('.upreg_day_out').val() > 30){
+                    $('.upreg_day_out').val(30);
+                }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
+            }
+            console.log($('.upreg_year_out').val().length);
+            if(parseInt($('.upreg_year_out').val()) > parseInt($('.upreg_year_out').attr('max')) && $('.upreg_year_out').val().length > 3){
+                $('.upreg_year_out').val($('.upreg_year_out').attr('max'));
+            }
+            if(parseInt($('.upreg_year_out').val()) < parseInt($('.upreg_year_out').attr('min')) && $('.upreg_year_out').val().length > 3){
+                $('.upreg_year_out').val($('.upreg_year_out').attr('min'));
+            }  
+        });
+    //update register outsite
+
+    //register therapy
+    $('.reg_month_the, .reg_year_the').on("change paste keyup", function() {
+            if ($('.reg_month_the').val()==2) {
+                if($('.reg_year_the').val()%4==0){
+                    $("#29t").show();
+                    if($('.reg_day_the').val() > 29){
+                        $('.reg_day_the').val(29);
+                    }
+                }
+                else{
+                    $("#29t").hide();
+                    if($('.reg_day_the').val() > 28){
+                        $('.reg_day_the').val(28);
+                    }
+                }
+                $("#30t").hide();
+                $("#31t").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
+            }
+            else if ($('.reg_month_the').val()==1||$('.reg_month_the').val()==3||$('.reg_month_the').val()==5||$('.reg_month_the').val()==7||
+                $('.reg_month_the').val()==8||$('.reg_month_the').val()==10||$('.reg_month_the').val()==12){
+                $("#30t").show();
+                $("#31t").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
+            }
+            else
+            {
+                $("#30t").show();
+                $("#31t").hide();
+                if($('.reg_day_the').val() > 30){
+                    $('.reg_day_the').val(30);
+                }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
+            }
+            console.log($('.reg_year_the').val().length);
+            if(parseInt($('.reg_year_the').val()) > parseInt($('.reg_year_the').attr('max')) && $('.reg_year_the').val().length > 3){
+                $('.reg_year_the').val($('.reg_year_the').attr('max'));
+            }
+            if(parseInt($('.reg_year_the').val()) < parseInt($('.reg_year_the').attr('min')) && $('.reg_year_the').val().length > 3){
+                $('.reg_year_the').val($('.reg_year_the').attr('min'));
+            }  
+        });
+    //end register therapy
+
+    //update reg therapy
+    $('.upreg_month_the, .upreg_year_the').on("change paste keyup", function() {
+            if ($('.upreg_month_the').val()==2) {
+                if($('.upreg_year_the').val()%4==0){
+                    $("#29ut").show();
+                    if($('.upreg_day_the').val() > 29){
+                        $('.upreg_day_the').val(29);
+                    }
+                }
+                else{
+                    $("#29ut").hide();
+                    if($('.upreg_day_the').val() > 28){
+                        $('.upreg_day_the').val(28);
+                    }
+                }
+                $("#30ut").hide();
+                $("#31ut").hide();
+
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("masuk kabisat " + test + " " + test2);
+            }
+            else if ($('.upreg_month_the').val()==1||$('.upreg_month_the').val()==3||$('.upreg_month_the').val()==5||$('.upreg_month_the').val()==7||
+                $('.upreg_month_the').val()==8||$('.upreg_month_the').val()==10||$('.upreg_month_the').val()==12){
+                $("#30ut").show();
+                $("#31ut").show();
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("tidak kabisat " + test + " " + test2);
+            }
+            else
+            {
+                $("#30ut").show();
+                $("#31ut").hide();
+                if($('.upreg_day_the').val() > 30){
+                    $('.upreg_day_the').val(30);
+                }
+                // var test = $('.birth_month').val();
+                // var test2 = $('.birth_day').val();
+                // console.log("kabisat " + test + " " + test2);
+            }
+            console.log($('.upreg_year_the').val().length);
+            if(parseInt($('.upreg_year_the').val()) > parseInt($('.upreg_year_the').attr('max')) && $('.upreg_year_the').val().length > 3){
+                $('.upreg_year_the').val($('.upreg_year_the').attr('max'));
+            }
+            if(parseInt($('.upreg_year_the').val()) < parseInt($('.upreg_year_the').attr('min')) && $('.upreg_year_the').val().length > 3){
+                $('.upreg_year_the').val($('.upreg_year_the').attr('min'));
+            }  
+        });
+    //end update reg therapy
 </script>
+
 <script type="text/javascript">
 
     // $(".btn-deleteDataOutsite-list").click(function(){
