@@ -39,6 +39,13 @@ Route::get('/', function () {
 Route::get('/dashboard', 'DashboardController@index')
 	->name('dashboard')
 	->middleware('can:dashboard');
+//export Data Undangan CSV
+Route::get('/dataundangan-export-to-csv', 'DataController@exportDataUndanganCSV')
+    ->name('dataundangan-export-to-csv');
+
+//export Data Outsites CSV
+Route::get('/dataoutsites-export-to-csv', 'DataController@exportDataOutsiteCSV')
+    ->name('dataoutsites-export-to-csv');
 
 //-- MASTER DATA --//
 Route::group(['prefix' => 'data'], function () {
@@ -101,6 +108,9 @@ Route::group(['prefix' => 'data'], function () {
     Route::post('/finddataoutsite', 'DataController@findDataOutsite')
         ->name('find_dataoutsite')
         ->middleware('can:find-data-outsite');
+
+    Route::get('/searchNumberUndangan', 'DataController@searchNumberUndangan')
+        ->name('search_numberUndangan');
 
     //Delete Data Outsite
     Route::post('/deletedataoutsite', 'DataController@deleteDataOutsite')
