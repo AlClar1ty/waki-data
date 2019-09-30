@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Exports\DataUndanganExport;
+use App\Exports\DataOutsitesExport;
+use App\Exports\DataTheraphyExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Response;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
@@ -19,6 +23,7 @@ use App\Bank;
 use App\User;
 use Auth;
 use DB;
+
 
 class DataController extends Controller
 {
@@ -709,7 +714,7 @@ class DataController extends Controller
                 ->paginate(10);
 
                 $data_therapies->appends($request->only('keywordDataTherapy'));
-                dd($data_therapies);
+                //dd($data_therapies);
             }
         }
         else
@@ -779,11 +784,11 @@ class DataController extends Controller
             ->paginate(10);
 
             $data_therapies->appends($request->only('keywordDataTherapy'));
-            dd($data_therapies);
+            //dd($data_therapies);
         }
         // return response()->json(['success'=> $data_therapies]);
         return $data_therapies;
-        dd($data_therapies);
+        //dd($data_therapies);
     }
 
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1959,6 +1964,10 @@ class DataController extends Controller
         return $data_outsites;
     }
 
+    public function exportDataUndanganExcel(Request $request){
+        return Excel::download(new DataUndanganExport, 'dataundangan.xlsx');
+    }
+
     public function exportDataUndanganCSV(Request $request){
         $table = DataUndangan::where('active',1)->get();
         $output = implode(";", array('code', 'registration_date','name','address','phone','birth_date'));
@@ -1974,6 +1983,10 @@ class DataController extends Controller
         return Response::make(rtrim($output, "\n"), 200, $headers);
     }
 
+    public function exportDataOutsitesExcel(Request $request){
+        return Excel::download(new DataOutsitesExport, 'dataoutsites.xlsx');
+    }
+
     public function exportDataOutsiteCSV(Request $request){
         $table = DB::table('data_outsites')
         ->join('branches', 'data_outsites.branch_id', '=', 'branches.id')
@@ -1982,10 +1995,11 @@ class DataController extends Controller
         ->select('data_outsites.code','data_outsites.registration_date', 'data_outsites.name', 'data_outsites.phone', 'branches.name as branch', 'locations.name as location', 'type_custs.name as type_cust')
         ->where('data_outsites.active',1)
         ->get();
+        //dd($table);
         $output = implode(";", array('code', 'registration_date','name','phone','branch','location','type_cust'));
         foreach ($table as $row) {
             $output .= "\n";
-            $output .=  implode(";", array($row['code'], $row['registration_date'], $row['name'], $row['phone'], $row['branch'], $row['location'], $row['type_cust'])); // append each row
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->phone, $row->branch, $row->location, $row->type_cust)); // append each row
         }
         $headers = array(
                 'Content-Type' => 'text/csv',
@@ -1995,16 +2009,26 @@ class DataController extends Controller
         return Response::make(rtrim($output, "\n"), 200, $headers);
     }
 
+    public function exportDataTheraphyExcel(Request $request){
+        return Excel::download(new DataTheraphyExport, 'datatheraphy.xlsx');
+    }
+
     public function exportDataTheraphyCSV(Request $request){
-        $table = DataTherapy::where('active',1)->get();
-        $output = implode(";", array('code', 'registration_date','name','address','phone','birth_date'));
+        $table = DB::table('data_therapies')
+        ->join('branches', 'data_therapies.branch_id', '=', 'branches.id')
+        // ->join('csos', 'data_therapies.cso_id', '=', 'csos.id')
+        ->join('type_custs', 'data_therapies.type_cust_id', '=', 'type_custs.id')
+        ->select('data_therapies.code','data_therapies.registration_date','data_therapies.name','data_therapies.address','data_therapies.phone','data_therapies.province','data_therapies.district','branches.name as branch','type_custs.name as type_cust')
+        ->where('data_therapies.active',1)
+        ->get();
+        $output = implode(";", array('code', 'registration_date','name','address','phone','province','district','branch','type_cust'));
         foreach ($table as $row) {
             $output .= "\n";
-            $output .=  implode(";", array($row['code'], $row['registration_date'], $row['name'], $row['address'], $row['phone'], $row['birth_date'])); // append each row
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->address, $row->phone, $row->province, $row->district, $row->branch, $row->type_cust)); // append each row
         }
         $headers = array(
                 'Content-Type' => 'text/csv',
-                'Content-Disposition' => 'attachment; filename="dataundangan.csv"',
+                'Content-Disposition' => 'attachment; filename="datatheraphy.csv"',
         );
         
         return Response::make(rtrim($output, "\n"), 200, $headers);

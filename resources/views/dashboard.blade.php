@@ -29,18 +29,43 @@
     @endif
 
     @if(Gate::check('report'))
+    <style type="text/css">
+        .dropdown-btn {
+          padding: 6px 8px 6px 16px;
+          text-decoration: none;
+          font-size: 20px;
+          color: #818181;
+          display: block;
+          border: none;
+          background: none;
+          width:100%;
+          text-align: left;
+          cursor: pointer;
+          outline: none;
+        }
+
+        .dropdown-container {
+          display: none;
+          background-color: #262626;
+          padding-left: 8px;
+        }
+    </style>
     <li>
-        <a href="#" style="hover:display:block;">Report<i class="fa fa-caret-down" 
+        <a href="#" class="dropdown-btn">Report<i class="fa fa-caret-down" 
             style="float:right;margin-top:15px;margin-right:20px;"></i></a>
-        <ul style="">
-            <li data-target="#modal-report-undangan" data-toggle="modal">
-                <a href="#">Data Undangan</a>
-            </li>
-            <li data-target="#modal-report-outsites" data-toggle="modal">
-                <a href="#">Data Outsites</a>
-            </li>
-            <li><a href="#">Data Theraphy</a></li>
-        </ul>
+        <div class="dropdown-container">
+            <ul>
+                <li data-target="#modal-report-undangan" data-toggle="modal">
+                    <a href="#">Data Undangan</a>
+                </li>
+                <li data-target="#modal-report-outsites" data-toggle="modal">
+                    <a href="#">Data Outsites</a>
+                </li>
+                <li data-target="#modal-report-theraphy" data-toggle="modal">
+                    <a href="#">Data Theraphy</a>
+                </li>
+            </ul>
+        </div>
     </li>
     @endif
 @endsection
@@ -140,7 +165,7 @@
                     </div>
                 </div>
             </div>
-        </div><!--/.row--> -->
+        </div><!--/.row-->
     </div>
 </div>
 
@@ -160,7 +185,7 @@
                 <div class="clearfix"></div>
             </div>
             <div class="modal-footer">
-                <button id="btn-export-dataundangan-excel" onclick="tableToExcel('table_agent')" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-dataundangan-excel" type="submit" class="btn btn-primary">Export to Excel</button>
                 <button id="btn-export-dataundangan-csv" type="button" class="btn btn-secondary">Export to CSV</button>
             </div>
         </div>
@@ -184,26 +209,37 @@
                 <div class="clearfix"></div>
             </div>
             <div class="modal-footer">
-                <button id="btn-export-dataoutsites-excel" onclick="tableToExcel('table_agent')" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-dataoutsites-excel" type="submit" class="btn btn-primary">Export to Excel</button>
                 <button id="btn-export-dataoutsites-csv" type="button" class="btn btn-secondary">Export to CSV</button>
             </div>
         </div>
         <!-- //Modal content-->
     </div>
 </div>
-<script type="text/javascript">
-        var tableToExcel = (function() {
-    var uri = 'data:application/vnd.ms-excel;base64,'
-    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
-    , base64 = function(s) { return window.btoa(unescape(encodeURIComponent(s))) }
-    , format = function(s, c) { return s.replace(/{(\w+)}/g, function(m, p) { return c[p]; }) }
-    return function(table, name) {
-    if (!table.nodeType) table = document.getElementById(table)
-    var ctx = {worksheet: name || 'Member', table: table.innerHTML}
-    window.location.href = uri + base64(format(template, ctx))
-  }
-})()
-    </script>
+
+<div class="modal fade" id="modal-report-theraphy" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="top: 30vh;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                    <p style="text-align: center; color: black;">
+                        <strong id="model-change-status-questions">Report Data Theraphy</strong>
+                    </p>
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-export-datatheraphy-excel" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-datatheraphy-csv" type="button" class="btn btn-secondary">Export to CSV</button>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -312,14 +348,31 @@
     };
 </script>
 <script type="text/javascript">
+    $("#btn-export-dataundangan-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataundangan-export-to-excel') }}";
+    });
     $("#btn-export-dataundangan-csv").click(function(e){
         // console.log('zxvzvxc');
         window.location.href = "{{ route('dataundangan-export-to-csv') }}";
     });
 
+    $("#btn-export-dataoutsites-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataoutsites-export-to-excel') }}";
+    });
     $("#btn-export-dataoutsites-csv").click(function(e){
         // console.log('zxvzvxc');
         window.location.href = "{{ route('dataoutsites-export-to-csv') }}";
+    });
+
+    $("#btn-export-datatheraphy-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('datatherapy-export-to-excel') }}";
+    });
+    $("#btn-export-datatheraphy-csv").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('datatherapy-export-to-csv') }}";
     });
 </script>
 @endsection
