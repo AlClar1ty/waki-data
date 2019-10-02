@@ -40,6 +40,30 @@ Route::get('/dashboard', 'DashboardController@index')
 	->name('dashboard')
 	->middleware('can:dashboard');
 
+//export Data Undangan Excel
+Route::get('/dataundangan-export-to-excel', 'DataController@exportDataUndanganExcel')
+    ->name('dataundangan-export-to-excel');
+
+//export Data Outsites Excel
+Route::get('/dataoutsites-export-to-excel', 'DataController@exportDataOutsitesExcel')
+    ->name('dataoutsites-export-to-excel');
+
+//export Data Theraphy Excel
+Route::get('/datatherapy-export-to-excel', 'DataController@exportDataTheraphyExcel')
+    ->name('datatherapy-export-to-excel');
+
+//export Data Undangan CSV
+Route::get('/dataundangan-export-to-csv', 'DataController@exportDataUndanganCSV')
+    ->name('dataundangan-export-to-csv');
+
+//export Data Outsites CSV
+Route::get('/dataoutsites-export-to-csv', 'DataController@exportDataOutsiteCSV')
+    ->name('dataoutsites-export-to-csv');
+
+//export Data Theraphy CSV
+Route::get('/datatherapy-export-to-csv', 'DataController@exportDataTheraphyCSV')
+    ->name('datatherapy-export-to-csv');
+
 //-- MASTER DATA --//
 Route::group(['prefix' => 'data'], function () {
     //Browser
@@ -102,6 +126,9 @@ Route::group(['prefix' => 'data'], function () {
     //Find Data Outsite
     Route::post('/finddataoutsite', 'DataController@findDataOutsite')
         ->name('find_dataoutsite');
+
+    Route::get('/searchNumberUndangan', 'DataController@searchNumberUndangan')
+        ->name('search_numberUndangan');
 
     //Delete Data Outsite
     Route::post('/deletedataoutsite', 'DataController@deleteDataOutsite')

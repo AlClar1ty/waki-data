@@ -33,7 +33,14 @@
     @endif
 
     @if(Gate::check('report'))
-    <li> <a href="">Report</a></li>
+    <li> 
+        <a href="">Report</a>
+        <select>
+            <option>A</option>
+            <option>B</option>
+            <option>C</option>
+        </select>   
+    </li>
     @endif
 @endsection
 @section('content')
@@ -72,10 +79,11 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
-                    <input class="form-control" type="text" name="find" placeholder="Search by Phone Number..." style="height: 46.8px;" id="txt-keywordDataUndangan">
+                    <input class="form-control" type="number" placeholder="Search by Phone Number..." style="height: 46.8px;" name="numberDataUndangan" id="txt-numberDataUndangan" value="{{ app('request')->input('numberDataUndangan') }}">
                     <div class="input-group-append">
-                        <button class="btn btn-light border" type="submit" id="btnFind-data-undangan">Search</button>
+                        <button class="btn btn-light border" type="submit">Search</button>
                     </div>
+                    
                     <span class="invalid-feedback">
                         <strong style="margin-left: 40px; font-size: 12pt;"></strong>
                     </span>
@@ -291,7 +299,7 @@
         </div>
         <div class="tab-pane" role="tabpanel" id="tab-2">
             @if(Gate::check('find-data-outsite'))
-            <form id="actionFindDataOutsite" name="FindDataOutsite" action="{{ route('find_dataoutsite') }}" style="display: block;float: inherit;">
+            <form action="{{ url()->current() }}" style="display: block;float: inherit;">
                 <h1 style="text-align: center;color: rgb(80, 94, 108);">Find Data Out-Site</h1>
                 <br>
                 <div class="input-group">
@@ -300,7 +308,7 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
-                    <input class="form-control" type="text" name="find" placeholder="Search by Phone Number..." style="height: 46.8px;">
+                    <input class="form-control" type="text" name="numberDataOutsites" id="txt-numberDataOutsites" value="{{ app('request')->input('numberDataOutsites') }}" placeholder="Search by Phone Number..." style="height: 46.8px;">
                     <div class="input-group-append">
                         <button class="btn btn-light border" type="submit">Search</button>
                     </div>
@@ -484,9 +492,9 @@
                             <i class="fa fa-search"></i>
                         </span>
                     </div>
-                    <input class="form-control" type="text" name="find" placeholder="Search by Phone Number..." style="height: 46.8px;">
+                    <input class="form-control" type="text" name="numberDataTherapy" id="txt-numberDataTherapy" value="{{ app('request')->input('numberDataTherapy') }}" placeholder="Search by Phone Number..." style="height: 46.8px;">
                     <div class="input-group-append">
-                        <button class="btn btn-light border" type="submit" disabled>Search</button>
+                        <button class="btn btn-light border" type="submit">Search</button>
                     </div>
                 </div>
             </form>
@@ -1275,7 +1283,7 @@
 
     <!-- untuk table data -->
     <div class="table-responsive table table-striped table-indesktop">
-        <table class="table table-sm table-bordered">
+        <table id="table-data-undangan" class="table table-sm table-bordered">
             <thead>
                 <tr>
                     <th>REG DATE</th>
@@ -1292,14 +1300,14 @@
                 $i = 0
                 @endphp
                 @foreach($dataUndangans as $dataUndangan)
-                <tr>
+                <tr id="tr-table-undangan">
                     <td>{{$dataUndangan->registration_date}}</td>
                     <td>{{$dataUndangan->code}}</td>
                     <td>{{$dataUndangan->name}}</td>
                     @if($dataUndangan->phone == "")
                         <td>-</td>
                     @else
-                        <td>{{DataController::Decr($dataUndangan->phone)}}</td>
+                        <td id="td-phone-undangan">{{DataController::Decr($dataUndangan->phone)}}</td>
                     @endif
                     <td style="display: none;">{{$dataUndangan->address}}</td>
                     <td style="display: none;">{{$dataUndangan->birth_date}}</td>
@@ -3405,7 +3413,6 @@
         * Khusus method" undangan dari awal sampai akhir
         */
         var frmAddUndangan;
-
         $('#btnFind-data-undangan').click(function(e){
             e.preventDefault();
             var userNya = {{Auth::User()->id}};

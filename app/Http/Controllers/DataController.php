@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Exports\DataUndanganExport;
+use App\Exports\DataOutsitesExport;
+use App\Exports\DataTheraphyExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Response;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 use App\DataUndangan;
@@ -18,6 +23,7 @@ use App\Bank;
 use App\User;
 use Auth;
 use DB;
+
 
 class DataController extends Controller
 {
@@ -42,6 +48,7 @@ class DataController extends Controller
         * maka dia bisa buka table salah satu data tersebut
         * sample : "if(all-branch-mpc || all-country-mpc)"
         */
+
         if($user->can('browse-mpc'))
         {
           $dataMpcs = $this->IndexMpc($request, $user);
@@ -56,8 +63,20 @@ class DataController extends Controller
         }
         if($user->can('browse-data-therapy'))
         {
-          $dataTherapies = $this->IndexTherapy($request, $user);
+          $dataTherapies = $this->IndexTherapy($request, $user);    
         }
+        // if($request->has('numberDataUndangan'))
+        // {
+        //     $dataUndangans = $this->searchNumberUndangan($request, $user);
+        // }
+        // if($user->can('find-data-outsite'))
+        // {
+        //     $dataOutsites = $this->searchNumberOutsites($request, $user);
+        // }
+        // if($user->can('find-data-therapy'))
+        // {
+        //     $dataTherapies = $this->searchNumberTherapy($request, $user);
+        // }
         $branches = Branch::where([['country', $user->branch['country']],['active', true]])->orderBy('code')->get();
         $csos = Cso::where('active', true)->orderBy('name')->get();
         $type_custs = TypeCust::where('active', true)->get();
@@ -307,7 +326,6 @@ class DataController extends Controller
             }
             $newReqPhone = implode("", $newReqPhone);
         }
-        
         if($user->can('all-branch-data-undangan'))
         {
             if($user->can('all-country-data-undangan'))
@@ -690,6 +708,7 @@ class DataController extends Controller
                 ->paginate(10);
 
                 $data_therapies->appends($request->only('keywordDataTherapy'));
+                //dd($data_therapies);
             }
             else
             {
@@ -756,6 +775,7 @@ class DataController extends Controller
                 ->paginate(10);
 
                 $data_therapies->appends($request->only('keywordDataTherapy'));
+                //dd($data_therapies);
             }
         }
         else
@@ -766,12 +786,12 @@ class DataController extends Controller
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_therapies.name', 'like', "%{$request->keywordDataOutsite}%")
+                    ->orWhere('data_therapies.name', 'like', "%{$request->keywordDataTherapy}%")
                     ->where([
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_therapies.address', 'like', "%{$request->keywordDataOutsite}%")
+                    ->orWhere('data_therapies.address', 'like', "%{$request->keywordDataTherapy}%")
                     ->where([
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
@@ -791,7 +811,7 @@ class DataController extends Controller
 		            //     ['data_therapies.active', true],
 		            //     ['data_therapies.branch_id', $user->branch_id]
 		            // ])
-                    ->orWhere('data_therapies.registration_date', 'like', "%{$request->keywordDataOutsite}%")
+                    ->orWhere('data_therapies.registration_date', 'like', "%{$request->keywordDataTherapy}%")
                     ->where([
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
@@ -824,10 +844,12 @@ class DataController extends Controller
             ->select('data_therapies.*')
             ->paginate(10);
 
-            $data_therapies->appends($request->only('keywordDataOutsite'));
+            $data_therapies->appends($request->only('keywordDataTherapy'));
+            //dd($data_therapies);
         }
         // return response()->json(['success'=> $data_therapies]);
         return $data_therapies;
+        //dd($data_therapies);
     }
 
     /*+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
@@ -1723,6 +1745,7 @@ class DataController extends Controller
             return response()->json(['errors'=>'Data Tidak di Temukan !!']);
         }
     }
+
     /*Function mencari data MPC
     * menggunakan parameter request langsung
     */
@@ -1804,6 +1827,274 @@ class DataController extends Controller
         $request->session()->put('insert_success', 1);
         return redirect('data');
         // return response()->json(['success'=>$DataUndangan]);
+    }
+
+    function searchNumberUndangan(Request $request, User $user){
+        if($user->can('all-branch-data-undangan'))
+        {
+            if($user->can('all-country-data-undangan'))
+            {
+                $data_undangans = DataUndangan::when($request->numberDataUndangan, function ($query) use ($request) {
+                    $query->where('phone', 'like', "%{$this->Encr($request->numberDataUndangan)}%")
+                        ->where('active', true);
+                })->where('active', true)
+                ->orderBy('id', 'desc')
+                ->paginate(10);
+
+                $data_undangans->appends($request->only('numberDataUndangan'));
+            }
+            else
+            {
+                $data_undangans = DataUndangan::when($request->numberDataUndangan, function ($query) use ($request, $user) {
+                    $query->where('data_undangans.phone', 'like', "%{$this->Encr($request->numberDataUndangan)}%")
+                        ->where([
+                            ['data_undangans.active', true],
+                            ['branches.country', $user->branch['country']]
+                        ]);
+                })
+                ->where([['data_undangans.active', true],
+                        ['branches.country', $user->branch['country']]])
+                ->join('history_undangans', 'data_undangans.id', '=', 'history_undangans.data_undangan_id')
+                ->leftjoin('banks', 'history_undangans.bank_id', '=', 'banks.id')
+                ->join('branches', 'history_undangans.branch_id', '=', 'branches.id')
+                ->join('csos', 'history_undangans.cso_id', '=', 'csos.id')
+                ->join('type_custs', 'history_undangans.type_cust_id', '=', 'type_custs.id')
+                ->orderBy('data_undangans.id', 'desc')
+                ->select('data_undangans.*')
+                ->paginate(10);
+
+                $data_undangans->appends($request->only('numberDataUndangan'));
+            }
+        }
+        else
+        {
+            $data_undangans = DataUndangan::when($request->numberDataUndangan, function ($query) use ($request, $user) {
+                $query->where('data_undangans.phone', 'like', "%{$this->Encr($request->numberDataUndangan)}%")
+                    ->where([
+                        ['data_undangans.active', true],
+                        ['history_undangans.branch_id', $user->branch_id]
+                    ]);
+            })
+            ->where([
+                ['data_undangans.active', true],
+                ['history_undangans.branch_id', $user->branch_id]
+            ])
+            ->join('history_undangans', 'data_undangans.id', '=', 'history_undangans.data_undangan_id')
+            ->leftjoin('banks', 'history_undangans.bank_id', '=', 'banks.id')
+            ->join('branches', 'history_undangans.branch_id', '=', 'branches.id')
+            ->join('csos', 'history_undangans.cso_id', '=', 'csos.id')
+            ->join('type_custs', 'history_undangans.type_cust_id', '=', 'type_custs.id')
+            ->orderBy('data_undangans.id', 'desc')
+            ->select('data_undangans.*')
+            ->paginate(10);
+
+            $data_undangans->appends($request->only('numberDataUndangan'));
+        }
+        return $data_undangans;
+    }
+
+    function searchNumberTherapy (Request $request, User $user){
+        if($user->can('all-branch-data-therapy'))
+        {
+            if($user->can('all-country-data-therapy'))
+            {
+                $data_therapies = DataTherapy::when($request->numberDataTherapy, function ($query) use ($request) {
+                    $query->where('data_therapies.phone', 'like', "%{$this->Encr($request->numberDataTherapy)}%")
+                        ->where('data_therapies.active', true);
+                })->where('data_therapies.active', true)
+                ->join('branches', 'data_therapies.branch_id', '=', 'branches.id')
+                // ->join('csos', 'data_therapies.cso_id', '=', 'csos.id')
+                ->join('type_custs', 'data_therapies.type_cust_id', '=', 'type_custs.id')
+                ->orderBy('data_therapies.id', 'desc')
+                ->select('data_therapies.*')
+                ->paginate(10);
+
+                $data_therapies->appends($request->only('numberDataTherapy'));
+            }
+            else
+            {
+                $data_therapies = DataTherapy::when($request->numberDataTherapy, function ($query) use ($request, $user) {
+                    $query->where('data_therapies.phone', 'like', "%{$this->Encr($request->numberDataTherapy)}%")
+                        ->where([
+                            ['data_therapies.active', true],
+                            ['branches.country', $user->branch['country']]
+                        ]);
+                })
+                ->where([['data_therapies.active', true],
+                        ['branches.country', $user->branch['country']]])
+                ->join('branches', 'data_therapies.branch_id', '=', 'branches.id')
+                // ->join('csos', 'data_therapies.cso_id', '=', 'csos.id')
+                ->join('type_custs', 'data_therapies.type_cust_id', '=', 'type_custs.id')
+                ->orderBy('data_therapies.id', 'desc')
+                ->select('data_therapies.*')
+                ->paginate(10);
+
+                $data_therapies->appends($request->only('numberDataTherapy'));
+            }
+        }
+        else
+        {
+            $data_therapies = DataTherapy::when($request->numberDataTherapy, function ($query) use ($request, $user) {
+                $query->where('data_therapies.phone', 'like', "%{$this->Encr($request->numberDataTherapy)}%")
+                    ->where([
+                        ['data_therapies.active', true],
+                        ['data_therapies.branch_id', $user->branch_id]
+                    ]);
+            })
+            ->where([
+                ['data_therapies.active', true],
+                ['data_therapies.branch_id', $user->branch_id]
+            ])
+            ->join('branches', 'data_therapies.branch_id', '=', 'branches.id')
+            // ->join('csos', 'data_therapies.cso_id', '=', 'csos.id')
+            ->join('type_custs', 'data_therapies.type_cust_id', '=', 'type_custs.id')
+            ->orderBy('data_therapies.id', 'desc')
+            ->select('data_therapies.*')
+            ->paginate(10);
+
+            $data_therapies->appends($request->only('numberDataTherapy'));
+        }
+        // return response()->json(['success'=> $data_therapies]);
+        return $data_therapies;
+        dd($data_therapies);
+    }
+
+    function searchNumberOutsites(Request $request, User $user){
+        if($user->can('all-branch-data-outsite'))
+        {
+            if($user->can('all-country-data-outsite'))
+            {
+                $data_outsites = DataOutsite::when($request->numberDataOutsites, function ($query) use ($request) {
+                    $query->where('data_outsites.phone', 'like', "%{$this->Encr($request->numberDataOutsites)}%")
+                        ->where('data_outsites.active', true);
+                })->where('data_outsites.active', true)
+                ->join('branches', 'data_outsites.branch_id', '=', 'branches.id')
+                // ->join('csos', 'data_outsites.cso_id', '=', 'csos.id')
+                ->leftjoin('locations', 'data_outsites.location_id', '=', 'locations.id')
+                ->join('type_custs', 'data_outsites.type_cust_id', '=', 'type_custs.id')
+                ->orderBy('data_outsites.id', 'desc')
+                ->select('data_outsites.*')
+                ->paginate(10);
+
+                $data_outsites->appends($request->only('numberDataOutsites'));
+            }
+            else
+            {
+                $data_outsites = DataOutsite::when($request->numberDataOutsites, function ($query) use ($request, $user) {
+                    $query->where('data_outsites.phone', 'like', "%{$this->Encr($request->numberDataOutsites)}%")
+                        ->where([
+                            ['data_outsites.active', true],
+                            ['branches.country', $user->branch['country']]
+                        ]);
+                })
+                ->where([['data_outsites.active', true],
+                        ['branches.country', $user->branch['country']]])
+                ->join('branches', 'data_outsites.branch_id', '=', 'branches.id')
+                // ->join('csos', 'data_outsites.cso_id', '=', 'csos.id')
+                ->leftjoin('locations', 'data_outsites.location_id', '=', 'locations.id')
+                ->join('type_custs', 'data_outsites.type_cust_id', '=', 'type_custs.id')
+                ->orderBy('data_outsites.id', 'desc')
+                ->select('data_outsites.*')
+                ->paginate(10);
+
+                $data_outsites->appends($request->only('numberDataOutsites'));
+            }
+        }
+        else
+        {
+            $data_outsites = DataOutsite::when($request->numberDataOutsites, function ($query) use ($request, $user) {
+                $query->where('data_outsites.phone', 'like', "%{$this->Encr($request->numberDataOutsites)}%")
+                    ->where([
+                        ['data_outsites.active', true],
+                        ['data_outsites.branch_id', $user->branch_id]
+                    ]);
+            })
+            ->where([
+                ['data_outsites.active', true],
+                ['data_outsites.branch_id', $user->branch_id]
+            ])
+            // ->join('csos', 'data_outsites.cso_id', '=', 'csos.id')
+            ->join('branches', 'data_outsites.branch_id', '=', 'branches.id')
+            ->leftjoin('locations', 'data_outsites.location_id', '=', 'locations.id')
+            ->join('type_custs', 'data_outsites.type_cust_id', '=', 'type_custs.id')
+            ->orderBy('data_outsites.id', 'desc')
+            ->select('data_outsites.*')
+            ->paginate(10);
+
+            $data_outsites->appends($request->only('numberDataOutsites'));
+        }
+
+        return $data_outsites;
+    }
+
+    public function exportDataUndanganExcel(Request $request){
+        return Excel::download(new DataUndanganExport, 'dataundangan.xlsx');
+    }
+
+    public function exportDataUndanganCSV(Request $request){
+        $table = DataUndangan::where('active',1)->get();
+        $output = implode(";", array('code', 'registration_date','name','address','phone','birth_date'));
+        foreach ($table as $row) {
+            $output .= "\n";
+            $output .=  implode(";", array($row['code'], $row['registration_date'], $row['name'], $row['address'], $row['phone'], $row['birth_date'])); // append each row
+        }
+        $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="dataundangan.csv"',
+        );
+        
+        return Response::make(rtrim($output, "\n"), 200, $headers);
+    }
+
+    public function exportDataOutsitesExcel(Request $request){
+        return Excel::download(new DataOutsitesExport, 'dataoutsites.xlsx');
+    }
+
+    public function exportDataOutsiteCSV(Request $request){
+        $table = DB::table('data_outsites')
+        ->join('branches', 'data_outsites.branch_id', '=', 'branches.id')
+        ->leftjoin('locations', 'data_outsites.location_id', '=', 'locations.id')
+        ->join('type_custs', 'data_outsites.type_cust_id', '=', 'type_custs.id')
+        ->select('data_outsites.code','data_outsites.registration_date', 'data_outsites.name', 'data_outsites.phone', 'branches.name as branch', 'locations.name as location', 'type_custs.name as type_cust')
+        ->where('data_outsites.active',1)
+        ->get();
+        //dd($table);
+        $output = implode(";", array('code', 'registration_date','name','phone','branch','location','type_cust'));
+        foreach ($table as $row) {
+            $output .= "\n";
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->phone, $row->branch, $row->location, $row->type_cust)); // append each row
+        }
+        $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="dataoutsites.csv"',
+        );
+        
+        return Response::make(rtrim($output, "\n"), 200, $headers);
+    }
+
+    public function exportDataTheraphyExcel(Request $request){
+        return Excel::download(new DataTheraphyExport, 'datatheraphy.xlsx');
+    }
+
+    public function exportDataTheraphyCSV(Request $request){
+        $table = DB::table('data_therapies')
+        ->join('branches', 'data_therapies.branch_id', '=', 'branches.id')
+        // ->join('csos', 'data_therapies.cso_id', '=', 'csos.id')
+        ->join('type_custs', 'data_therapies.type_cust_id', '=', 'type_custs.id')
+        ->select('data_therapies.code','data_therapies.registration_date','data_therapies.name','data_therapies.address','data_therapies.phone','data_therapies.province','data_therapies.district','branches.name as branch','type_custs.name as type_cust')
+        ->where('data_therapies.active',1)
+        ->get();
+        $output = implode(";", array('code', 'registration_date','name','address','phone','province','district','branch','type_cust'));
+        foreach ($table as $row) {
+            $output .= "\n";
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->address, $row->phone, $row->province, $row->district, $row->branch, $row->type_cust)); // append each row
+        }
+        $headers = array(
+                'Content-Type' => 'text/csv',
+                'Content-Disposition' => 'attachment; filename="datatheraphy.csv"',
+        );
+        
+        return Response::make(rtrim($output, "\n"), 200, $headers);
     }
 }
 
