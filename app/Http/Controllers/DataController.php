@@ -63,7 +63,6 @@ class DataController extends Controller
         $type_custs = TypeCust::where('active', true)->get();
         $banks = Bank::where('active', true)->get();
         $locations = Location::where('active', true)->get();
-
         
         return view('data', compact('dataMpcs', 'dataOutsites', 'dataTherapies', 'dataUndangans', 'csos', 'branches', 'type_custs', 'banks', 'locations'));
     }
@@ -74,20 +73,33 @@ class DataController extends Controller
     * akan di cari berdasarkan keyword yang ada di Mpc
     * mengembalikan return data $mpcs
     */
-    function IndexMpc(Request $request, User $user)
+    public function IndexMpc(Request $request, User $user)
     {
+        $newReqPhone = [];
+        if($request->keywordMpc != null){
+            $reqPhone = $this->Encr($request->keywordMpc);
+            foreach (str_split($reqPhone) as $key => $byChar) {
+                array_push($newReqPhone, $byChar);
+                if($byChar == '\\')
+                {
+                    array_push($newReqPhone, '\\');
+                }
+            }
+            $newReqPhone = implode("", $newReqPhone);
+        }
+        
         if($user->can('all-branch-mpc'))
         {
             if($user->can('all-country-mpc'))
             {
-                $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request) {
+                $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request, $newReqPhone) {
                     $query->where('mpcs.code', 'like', "%{$request->keywordMpc}%")
                         ->where('mpcs.active', true)
                         ->orWhere('mpcs.name', 'like', "%{$request->keywordMpc}%")
                         ->where('mpcs.active', true)
                         ->orWhere('mpcs.address', 'like', "%{$request->keywordMpc}%")
                         ->where('mpcs.active', true)
-                        ->orWhere('mpcs.phone', 'like', "%{$request->keywordMpc}%")
+                        ->orWhere('mpcs.phone', 'like', "{$newReqPhone}")
                         ->where('mpcs.active', true)
                         ->orWhere('mpcs.province', 'like', "%{$request->keywordMpc}%")
                         ->where('mpcs.active', true)
@@ -121,7 +133,7 @@ class DataController extends Controller
             }
             else
             {
-                $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request, $user) {
+                $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request, $user, $newReqPhone) {
                     $query->where('mpcs.code', 'like', "%{$request->keywordMpc}%")
                         ->where([
                             ['mpcs.active', true],
@@ -137,7 +149,7 @@ class DataController extends Controller
                             ['mpcs.active', true],
                             ['branches.country', $user->branch['country']]
                         ])
-                        ->orWhere('mpcs.phone', 'like', "%{$request->keywordMpc}%")
+                        ->orWhere('mpcs.phone', 'like', "{$newReqPhone}")
                         ->where([
                             ['mpcs.active', true],
                             ['branches.country', $user->branch['country']]
@@ -202,7 +214,7 @@ class DataController extends Controller
         }
         else
         {
-            $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request, $user) {
+            $mpcs = Mpc::when($request->keywordMpc, function ($query) use ($request, $user, $newReqPhone) {
                 $query->where('mpcs.code', 'like', "%{$request->keywordMpc}%")
                     ->where([
                         ['mpcs.active', true],
@@ -218,7 +230,7 @@ class DataController extends Controller
                         ['mpcs.active', true],
                         ['mpcs.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('mpcs.phone', 'like', "%{$request->keywordMpc}%")
+                    ->orWhere('mpcs.phone', 'like', "{$newReqPhone}")
                     ->where([
                         ['mpcs.active', true],
                         ['mpcs.branch_id', $user->branch_id]
@@ -281,20 +293,33 @@ class DataController extends Controller
     }
 
     //blom selesai masih ada masalah dengan history nya...
-    function IndexUndangan(Request $request, User $user)
+    public function IndexUndangan(Request $request, User $user)
     {
+        $newReqPhone = [];
+        if($request->keywordDataUndangan != null){
+            $reqPhone = $this->Encr($request->keywordDataUndangan);
+            foreach (str_split($reqPhone) as $key => $byChar) {
+                array_push($newReqPhone, $byChar);
+                if($byChar == '\\')
+                {
+                    array_push($newReqPhone, '\\');
+                }
+            }
+            $newReqPhone = implode("", $newReqPhone);
+        }
+        
         if($user->can('all-branch-data-undangan'))
         {
             if($user->can('all-country-data-undangan'))
             {
-                $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request) {
+                $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $newReqPhone) {
                     $query->where('code', 'like', "%{$request->keywordDataUndangan}%")
                         ->where('active', true)
                         ->orWhere('name', 'like', "%{$request->keywordDataUndangan}%")
                         ->where('active', true)
                         ->orWhere('address', 'like', "%{$request->keywordDataUndangan}%")
                         ->where('active', true)
-                        ->orWhere('phone', 'like', "%{$this->Encr($request->keywordDataUndangan)}%")
+                        ->orWhere('phone', 'like', "{$newReqPhone}")
                         ->where('active', true)
                         ->orWhere('registration_date', 'like', "%{$request->keywordDataUndangan}%")
                         ->where('active', true)
@@ -308,7 +333,7 @@ class DataController extends Controller
             }
             else
             {
-                $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $user) {
+                $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $user, $newReqPhone) {
                     $query->where('data_undangans.code', 'like', "%{$request->keywordDataUndangan}%")
                         ->where([
                             ['data_undangans.active', true],
@@ -324,7 +349,7 @@ class DataController extends Controller
                             ['data_undangans.active', true],
                             ['branches.country', $user->branch['country']]
                         ])
-                        ->orWhere('data_undangans.phone', 'like', "%{$this->Encr($request->keywordDataUndangan)}%")
+                        ->orWhere('data_undangans.phone', 'like', "{$newReqPhone}")
                         ->where([
                             ['data_undangans.active', true],
                             ['branches.country', $user->branch['country']]
@@ -356,7 +381,7 @@ class DataController extends Controller
         }
         else
         {
-            $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $user) {
+            $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $user, $newReqPhone) {
                 $query->where('data_undangans.code', 'like', "%{$request->keywordDataUndangan}%")
                     ->where([
                         ['data_undangans.active', true],
@@ -372,7 +397,7 @@ class DataController extends Controller
                         ['data_undangans.active', true],
                         ['history_undangans.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_undangans.phone', 'like', "%{$this->Encr($request->keywordDataUndangan)}%")
+                    ->orWhere('data_undangans.phone', 'like', "{$newReqPhone}")
                     ->where([
                         ['data_undangans.active', true],
                         ['history_undangans.branch_id', $user->branch_id]
@@ -403,21 +428,47 @@ class DataController extends Controller
 
             $data_undangans->appends($request->only('keywordDataUndangan'));
         }
+
+        if($request->findPhone != null){
+            $data_undangans = DataUndangan::when($request->keywordDataUndangan, function ($query) use ($request, $newReqPhone) {
+                $query->where('data_undangans.phone', 'like', "{$newReqPhone}")
+                    ->where('data_undangans.active', true);
+            })
+            ->join('history_undangans', 'data_undangans.id', '=', 'history_undangans.data_undangan_id')
+            ->join('branches', 'history_undangans.branch_id', '=', 'branches.id')
+            ->select('data_undangans.*')->get();
+            $data_undangans[0]->phone = $this->Decr($data_undangans[0]->phone);
+            dd($data_undangans);
+            return response()->json(['data'=>$data_undangans, 'data0'=>$data_undangans]);
+        }
         return $data_undangans;
     }
 
-    function IndexOutsite(Request $request, User $user)
+    public function IndexOutsite(Request $request, User $user)
     {
+        $newReqPhone = [];
+        if($request->keywordDataOutsite != null){
+            $reqPhone = $this->Encr($request->keywordDataOutsite);
+            foreach (str_split($reqPhone) as $key => $byChar) {
+                array_push($newReqPhone, $byChar);
+                if($byChar == '\\')
+                {
+                    array_push($newReqPhone, '\\');
+                }
+            }
+            $newReqPhone = implode("", $newReqPhone);
+        }
+        
         if($user->can('all-branch-data-outsite'))
         {
             if($user->can('all-country-data-outsite'))
             {
-                $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request) {
+                $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request, $newReqPhone) {
                     $query->where('data_outsites.code', 'like', "%{$request->keywordDataOutsite}%")
                         ->where('data_outsites.active', true)
                         ->orWhere('data_outsites.name', 'like', "%{$request->keywordDataOutsite}%")
                         ->where('data_outsites.active', true)
-                        ->orWhere('data_outsites.phone', 'like', "%{$this->Encr($request->keywordDataOutsite)}%")
+                        ->orWhere('data_outsites.phone', 'like', "{$newReqPhone}")
                         ->where('data_outsites.active', true)
                         // ->orWhere('data_outsites.province', 'like', "%{$request->keywordDataOutsite}%")
                         // ->where('data_outsites.active', true)
@@ -429,8 +480,8 @@ class DataController extends Controller
                         ->where('data_outsites.active', true)
                         ->orWhere('branches.country', 'like', "%{$request->keywordDataOutsite}%")
                         ->where('data_outsites.active', true)
-                        ->orWhere('csos.name', 'like', "%{$request->keywordDataOutsite}%")
-                        ->where('data_outsites.active', true)
+                        // ->orWhere('csos.name', 'like', "%{$request->keywordDataOutsite}%")
+                        // ->where('data_outsites.active', true)
                         ->orWhere('locations.name', 'like', "%{$request->keywordDataOutsite}%")
                         ->where('data_outsites.active', true)
                         ->orWhere('type_custs.name', 'like', "%{$request->keywordDataOutsite}%")
@@ -448,7 +499,7 @@ class DataController extends Controller
             }
             else
             {
-                $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request, $user) {
+                $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request, $user, $newReqPhone) {
                     $query->where('data_outsites.code', 'like', "%{$request->keywordDataOutsite}%")
                         ->where([
                             ['data_outsites.active', true],
@@ -459,7 +510,7 @@ class DataController extends Controller
                             ['data_outsites.active', true],
                             ['branches.country', $user->branch['country']]
                         ])
-                        ->orWhere('data_outsites.phone', 'like', "%{$this->Encr($request->keywordDataOutsite)}%")
+                        ->orWhere('data_outsites.phone', 'like', "{$newReqPhone}")
                         ->where([
                             ['data_outsites.active', true],
                             ['branches.country', $user->branch['country']]
@@ -516,7 +567,7 @@ class DataController extends Controller
         }
         else
         {
-            $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request, $user) {
+            $data_outsites = DataOutsite::when($request->keywordDataOutsite, function ($query) use ($request, $user, $newReqPhone) {
                 $query->where('data_outsites.code', 'like', "%{$request->keywordDataOutsite}%")
                     ->where([
                         ['data_outsites.active', true],
@@ -527,7 +578,7 @@ class DataController extends Controller
                         ['data_outsites.active', true],
                         ['data_outsites.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_outsites.phone', 'like', "%{$this->Encr($request->keywordDataOutsite)}%")
+                    ->orWhere('data_outsites.phone', 'like', "{$newReqPhone}")
                     ->where([
 		                ['data_outsites.active', true],
 		                ['data_outsites.branch_id', $user->branch_id]
@@ -587,18 +638,31 @@ class DataController extends Controller
         return $data_outsites;
     }
 
-    function IndexTherapy(Request $request, User $user)
+    public function IndexTherapy(Request $request, User $user)
     {
+        $newReqPhone = [];
+        if($request->keywordDataTherapy != null){
+            $reqPhone = $this->Encr($request->keywordDataTherapy);
+            foreach (str_split($reqPhone) as $key => $byChar) {
+                array_push($newReqPhone, $byChar);
+                if($byChar == '\\')
+                {
+                    array_push($newReqPhone, '\\');
+                }
+            }
+            $newReqPhone = implode("", $newReqPhone);
+        }
+        
         if($user->can('all-branch-data-therapy'))
         {
             if($user->can('all-country-data-therapy'))
             {
-                $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request) {
+                $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request, $newReqPhone) {
                     $query->where('data_therapies.code', 'like', "%{$request->keywordDataTherapy}%")
                         ->where('data_therapies.active', true)
                         ->orWhere('data_therapies.name', 'like', "%{$request->keywordDataTherapy}%")
                         ->where('data_therapies.active', true)
-                        ->orWhere('data_therapies.phone', 'like', "%{$this->Encr($request->keywordDataTherapy)}%")
+                        ->orWhere('data_therapies.phone', 'like', "{$newReqPhone}")
                         ->where('data_therapies.active', true)
                         // ->orWhere('data_therapies.province', 'like', "%{$request->keywordDataTherapy}%")
                         // ->where('data_therapies.active', true)
@@ -629,7 +693,7 @@ class DataController extends Controller
             }
             else
             {
-                $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request, $user) {
+                $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request, $user, $newReqPhone) {
                     $query->where('data_therapies.code', 'like', "%{$request->keywordDataTherapy}%")
                         ->where([
                             ['data_therapies.active', true],
@@ -640,7 +704,7 @@ class DataController extends Controller
                             ['data_therapies.active', true],
                             ['branches.country', $user->branch['country']]
                         ])
-                        ->orWhere('data_therapies.phone', 'like', "%{$this->Encr($request->keywordDataTherapy)}%")
+                        ->orWhere('data_therapies.phone', 'like', "{$newReqPhone}")
                         ->where([
                             ['data_therapies.active', true],
                             ['branches.country', $user->branch['country']]
@@ -696,7 +760,7 @@ class DataController extends Controller
         }
         else
         {
-            $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request, $user) {
+            $data_therapies = DataTherapy::when($request->keywordDataTherapy, function ($query) use ($request, $user, $newReqPhone) {
                 $query->where('data_therapies.code', 'like', "%{$request->keywordDataOutsite}%")
                     ->where([
                         ['data_therapies.active', true],
@@ -712,7 +776,7 @@ class DataController extends Controller
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_therapies.phone', 'like', "%{$this->Encr($request->keywordDataOutsite)}%")
+                    ->orWhere('data_therapies.phone', 'like', "{$newReqPhone}")
                     ->where([
 		                ['data_therapies.active', true],
 		                ['data_therapies.branch_id', $user->branch_id]
@@ -1235,7 +1299,7 @@ class DataController extends Controller
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
         $id=DataUndangan::where('code', $request->code)->first();
-        // dd($request->phone);
+
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
@@ -1468,6 +1532,8 @@ class DataController extends Controller
     {
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
+
+        $request->merge(['id'=> DataTherapy::where('code', $request->code)->first()['id']]);
 
         $validator = \Validator::make($request->all(), [
             'name' => 'required',

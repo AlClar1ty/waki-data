@@ -47,6 +47,10 @@ Route::group(['prefix' => 'data'], function () {
     	->name('data')
     	->middleware('auth');
 
+    //Find Phone Number Data Undangan
+    Route::post('/findphonedataundangan', 'DataController@IndexUndangan')
+        ->name('findphone_dataundangan')
+        ->middleware('can:find-mpc');
         
     //Add Data Undangan
     Route::post('/adddataundangan', 'DataController@storeDataUndangan')
@@ -86,21 +90,18 @@ Route::group(['prefix' => 'data'], function () {
     //Find History Undangan
     Route::post('/findHistoryUndangan', 'DataController@findHistoryUndangan')
         ->name('find_historyUndangan');
-    //Find Undangan
+    //Find therapy
     Route::post('/findtherapy', 'DataController@findTherapy')
         ->name('find_therapy');
     //Find Undangan
     Route::post('/findundangan', 'DataController@findUndangan')
-        ->name('find_undangan');
-        // ->middleware('can:find-mpc');    
+        ->name('find_undangan');   
     //Find Mpc
     Route::post('/findmpc', 'DataController@findMpc')
-        ->name('find_mpc')
-        ->middleware('can:find-mpc');
+        ->name('find_mpc');
     //Find Data Outsite
     Route::post('/finddataoutsite', 'DataController@findDataOutsite')
-        ->name('find_dataoutsite')
-        ->middleware('can:find-data-outsite');
+        ->name('find_dataoutsite');
 
     //Delete Data Outsite
     Route::post('/deletedataoutsite', 'DataController@deleteDataOutsite')

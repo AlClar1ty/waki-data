@@ -63,7 +63,7 @@
         </ul>
         <div class="tab-pane active" role="tabpanel" id="tab-1">
             @if(Gate::check('find-data-undangan'))
-            <form action="{{ url()->current() }}" style="display: block;float: inherit;">
+            <form action="" style="display: block;float: inherit;">
                 <h1 style="text-align: center;color: rgb(80, 94, 108);">Find Data Undangan</h1>
                 <br>
                 <div class="input-group">
@@ -2196,7 +2196,7 @@
 
 
 @if(Gate::check('find-mpc'))
-<!-- modal Find Data Undangan -->
+<!-- modal Find MPC -->
 <div class="modal fade" role="dialog" tabindex="-1" id="modal-FindMpc">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -2223,7 +2223,7 @@
 @endif
 
 @if(Gate::check('find-data-outsite'))
-<!-- modal Find Data Undangan -->
+<!-- modal Find Data Outsite -->
 <div class="modal fade" role="dialog" tabindex="-1" id="modal-FindDataOutsite">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -2250,7 +2250,7 @@
 
 @if(Gate::check('find-data-undangan'))
 <!-- modal Find Data Undangan -->
-<!-- <div class="modal fade" role="dialog" tabindex="-1" id="modal-FindMpc">
+<div class="modal fade" role="dialog" tabindex="-1" id="modal-FindDataUndangan">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -2260,13 +2260,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Name</b> : Budi Santoso</p>
-                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Address</b> : Jl. Kelapa Muda 12</p>
-                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Phone</b> : 081544468999</p>
-                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Birth Date</b> : 6-June-1966</p> -->
+                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Name</b> : <span id="data_undangan-name"></span></p>
+                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Address</b> : <span id="data_undangan-address"></span></p>
+                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Phone</b> : <span id="data_undangan-phone"></span></p>
+                <p class="card-text" style="font-weight: normal;font-size: 18px;margin-bottom: 3px;"><b>Birth Date</b> : <span id="data_undangan-birthdate"></span></p>
 
                 <!-- untuk table data -->
-                <!-- <div class="table-responsive table table-striped">
+                <div class="table-responsive table table-striped">
                     <table class="table table-sm table-bordered">
                         <thead>
                             <tr>
@@ -2276,8 +2276,8 @@
                         </thead>
                         <tbody name="collection">
                             <tr>
-                                <td>16-July-2018</td>
-                                <td>(F02) Tim Basori</td>
+                                <td><span id="data_undangan-regdate"></span></td>
+                                <td><span id="data_undangan-branch"></span></td>
                             </tr>
                         </tbody>
                     </table>
@@ -2290,7 +2290,7 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>
 @endif
 
 <!--=======================================================================-->
@@ -3121,7 +3121,8 @@
 
         //untuk refresh halaman ketika modal [SUCCESS Add] ditutup 
         $('#modal-Notification').on('hidden.bs.modal', function() { 
-            location.reload(); 
+            // location.reload();
+            window.location.href = $URL_GLOBAL;
         });
 
         // COUNTRY METHOD
@@ -3407,6 +3408,34 @@
 
         $('#btnFind-data-undangan').click(function(e){
             e.preventDefault();
+            var userNya = {{Auth::User()->id}};
+            var nomorNya = $('#txt-keywordDataUndangan').val();
+            console.log(nomorNya);
+            $.ajax({
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                type: 'post',
+                url: "{{route('findphone_dataundangan')}}",
+                data: {
+                    'keywordDataUndangan': nomorNya,
+                    'findPhone': "1",
+                    'user': userNya
+                },
+                success: function(data){
+                    var hasil = JSON.parse(event.target.responseText)['data'];
+                    console.log(hasil);
+                    if(hasil.length > 0){
+                        $("#data_undangan-name").html(hasil[0]['name']);
+                        $("#data_undangan-address").html(hasil[0]['address']);
+                        $("#data_undangan-phone").html(hasil[0]['phone']);
+                        $("#data_undangan-birthdate").html(hasil[0]['birth_date']);
+                        $("#data_undangan-branch").html(hasil[0]['birth_date']);
+                    }
+
+                    $("#modal-FindDataUndangan").modal("show");
+                },
+            });
         });
 
         $("#txttype-cust-dataundangan").change(function (e) {
@@ -4048,6 +4077,7 @@
                     $('#modal-EditDataOutsite').modal('hide')
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data Out-Site has been CHANGED successfully</div>");
                     $("#modal-Notification").modal("show");
+                    $URL_GLOBAL = "{{route('data')}}"+"?editOutsite=true";
                 }
 
                 document.getElementById("btn-confirmUpdateDataOutsite").innerHTML = "SAVE";
@@ -4156,6 +4186,8 @@
         }
         function completeHandlerTherapy(event){
             var hasil = JSON.parse(event.target.responseText);
+            console.log(hasil);
+            return;
 
             if(isAddDataTherapy){
                 for (var key of frmAddTherapy.keys()) {
@@ -4446,6 +4478,10 @@
         }
         /*===================================================*/
     });
+    
+    @if($_GET['editOutsite'])
+        console.log("masuk");
+    @endif
 
     //update undangan
     // $("#actionEditDataUndangan").on("submit", function (e) {
