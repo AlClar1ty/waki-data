@@ -29,31 +29,10 @@
     @endif
 
     @if(Gate::check('report'))
-    <style type="text/css">
-        .dropdown-btn {
-          padding: 6px 8px 6px 16px;
-          text-decoration: none;
-          font-size: 20px;
-          color: #818181;
-          display: block;
-          border: none;
-          background: none;
-          width:100%;
-          text-align: left;
-          cursor: pointer;
-          outline: none;
-        }
-
-        .dropdown-container {
-          display: none;
-          background-color: #262626;
-          padding-left: 8px;
-        }
-    </style>
     <li>
-        <a href="#" class="dropdown-btn">Report<i class="fa fa-caret-down" 
+        <a href="javascript:void(0)" class="dropdown-btn" style="display:block">Report<i class="fa fa-caret-down" 
             style="float:right;margin-top:15px;margin-right:20px;"></i></a>
-        <div class="dropdown-container">
+        <div class="dropdown-container" style="display:none;">
             <ul>
                 <li data-target="#modal-report-undangan" data-toggle="modal">
                     <a href="#">Data Undangan</a>
@@ -68,8 +47,28 @@
         </div>
     </li>
     @endif
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+          dropdown[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+              dropdownContent.style.display = "none";
+            } else {
+              dropdownContent.style.display = "block";
+            }
+          });
+        }
+    });
+</script>
 @endsection
 @section('content')
+
+
 <div class="container">
     <div class="col-sm-offset-3 col-lg-offset-2 main">
         

@@ -1,5 +1,4 @@
 <?php use App\Http\Controllers\DataController; ?>
-
 @extends('layouts.template')
 @section('css')
     <link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
@@ -34,16 +33,116 @@
 
     @if(Gate::check('report'))
     <li> 
-        <a href="">Report</a>
-        <select>
-            <option>A</option>
-            <option>B</option>
-            <option>C</option>
-        </select>   
+        <a href="javascript:void(0)" class="dropdown-btn" style="display:block">Report<i class="fa fa-caret-down" 
+            style="float:right;margin-top:15px;margin-right:20px;"></i></a>
+        <div class="dropdown-container" style="display:none;">
+            <ul>
+                <li data-target="#modal-report-undangan" data-toggle="modal">
+                    <a href="#">Data Undangan</a>
+                </li>
+                <li data-target="#modal-report-outsites" data-toggle="modal">
+                    <a href="#">Data Outsites</a>
+                </li>
+                <li data-target="#modal-report-theraphy" data-toggle="modal">
+                    <a href="#">Data Theraphy</a>
+                </li>
+            </ul>
+        </div>
     </li>
     @endif
+<script type="text/javascript">
+    $(document).ready(function(){
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+        for (i = 0; i < dropdown.length; i++) {
+          dropdown[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+              dropdownContent.style.display = "none";
+            } else {
+              dropdownContent.style.display = "block";
+            }
+          });
+        }
+    });
+</script>
 @endsection
 @section('content')
+<!-- pop up modal -->
+<div class="modal fade" id="modal-report-undangan" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="top: 30vh;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                    <p style="text-align: center; color: black;">
+                        <strong id="model-change-status-questions">Report Data Undangan</strong>
+                    </p>
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-export-dataundangan-excel" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-dataundangan-csv" type="button" class="btn btn-secondary">Export to CSV</button>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
+
+<div class="modal fade" id="modal-report-outsites" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="top: 30vh;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                    <p style="text-align: center; color: black;">
+                        <strong id="model-change-status-questions">Report Data Outsites</strong>
+                    </p>
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-export-dataoutsites-excel" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-dataoutsites-csv" type="button" class="btn btn-secondary">Export to CSV</button>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
+
+<div class="modal fade" id="modal-report-theraphy" tabindex="-1" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content" style="top: 30vh;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+
+                    <p style="text-align: center; color: black;">
+                        <strong id="model-change-status-questions">Report Data Theraphy</strong>
+                    </p>
+                
+                <div class="clearfix"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-export-datatheraphy-excel" type="submit" class="btn btn-primary">Export to Excel</button>
+                <button id="btn-export-datatheraphy-csv" type="button" class="btn btn-secondary">Export to CSV</button>
+            </div>
+        </div>
+        <!-- //Modal content-->
+    </div>
+</div>
+<!-- end pop up modal -->
+
 <div class="container contact-clean" id="form-addMember">
     <div class="tab-content">
         <ul class="nav nav-tabs">
@@ -2302,7 +2401,6 @@
 @endif
 
 <!--=======================================================================-->
-
 @endsection
 
 <!-- SCRIPT SECTION -->
@@ -3001,7 +3099,6 @@
     });
 </script>
 @endcan
-
 <script type="text/javascript">
     //////////// KHUSUS UNTUK SCRIPT ONCLICK TAB//////
     function ShowList(id) {
@@ -3012,6 +3109,7 @@
         $("#ListTab-"+id).removeClass("d-none");
     }
     ///////////////////////////////////////////////////
+    
 
     $(document).ready(function () {
         var url = window.location.href;
@@ -3020,6 +3118,7 @@
         //Default akan ke tab Undangan
         if(url.includes("keywordDataOutsite"))
         {
+
             $("a[href='#tab-1']").removeClass("active");
             $("a[href='#tab-2']").addClass("active");
             $("#tab-1").removeClass("active");
@@ -3127,9 +3226,14 @@
             });
         }
 
+
         //untuk refresh halaman ketika modal [SUCCESS Add] ditutup 
         $('#modal-Notification').on('hidden.bs.modal', function() { 
-            location.reload(); 
+            //location.reload();
+            window.location.href = $URL_GLOBAL;
+            
+            //console.log("URL_GLOBAL");
+            
         });
 
         // COUNTRY METHOD
@@ -3520,7 +3624,7 @@
             
         });
         $(".btn-editDataOutsite-list").click(function(e) {
-            console.log('asd');
+            //console.log('asd');
             id=($(this).val());
             // var URLNya = $("#actionFindDataOutsite").attr('action');
             $.ajax({
@@ -3560,7 +3664,6 @@
                                 $("#edit-txtbranch-dataoutsite").html("");
                                 $("#edit-txtbranch-dataoutsite").append("<option value=\"\" selected>BRANCH NOT FOUND</option>");
                             }
-                            
                         },
                     });
                     setTimeout(function(){ 
@@ -4019,6 +4122,8 @@
                     $('#modal-UpdateForm').modal('hide')
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">New Data Out-Site has been ADDED successfully</div>");
                     $("#modal-Notification").modal("show");
+                    $URL_GLOBAL = "{{route('data')}}"+"?addDataOutsite=true";
+                    
                 }
 
                 document.getElementById("btn-actionAddDataOutsite").innerHTML = "SAVE";
@@ -4056,6 +4161,8 @@
                     $('#modal-EditDataOutsite').modal('hide')
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data Out-Site has been CHANGED successfully</div>");
                     $("#modal-Notification").modal("show");
+                    $URL_GLOBAL = "{{route('data')}}"+"?editDataOutsite=true";
+                    // {{route('delete_dataoutsite', ['id' => $dataOutsite->id])}}
                 }
 
                 document.getElementById("btn-confirmUpdateDataOutsite").innerHTML = "SAVE";
@@ -4196,6 +4303,7 @@
                     $('#modal-UpdateForm').modal('hide')
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">New Data Therapy has been ADDED successfully</div>");
                     $("#modal-Notification").modal("show");
+                    $URL_GLOBAL = "{{route('data')}}"+"?addDataTheraphy=true";
                 }
 
                 document.getElementById("btn-actionAddDataTherapy").innerHTML = "SAVE";
@@ -4231,6 +4339,7 @@
                     $('#modal-EditDataTherapy').modal('hide')
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data Therapy has been CHANGED successfully</div>");
                     $("#modal-Notification").modal("show");
+                    $URL_GLOBAL = "{{route('data')}}"+"?editDataTheraphy=true";
                 }
 
                 document.getElementById("btn-confirmUpdateDataTherapy").innerHTML = "SAVE";
@@ -4563,4 +4672,67 @@
     //         $("#modal-Notification").modal("show");
     //     }
 </script>
+<script type="text/javascript">
+    $("#btn-export-dataundangan-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataundangan-export-to-excel') }}";
+    });
+    $("#btn-export-dataundangan-csv").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataundangan-export-to-csv') }}";
+    });
+
+    $("#btn-export-dataoutsites-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataoutsites-export-to-excel') }}";
+    });
+    $("#btn-export-dataoutsites-csv").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('dataoutsites-export-to-csv') }}";
+    });
+
+    $("#btn-export-datatheraphy-excel").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('datatherapy-export-to-excel') }}";
+    });
+    $("#btn-export-datatheraphy-csv").click(function(e){
+        // console.log('zxvzvxc');
+        window.location.href = "{{ route('datatherapy-export-to-csv') }}";
+    });
+</script>
+@if(isset($_GET['addDataOutsite']))
+    <script type="text/javascript">
+    //console.log("masuk");
+    $("a[href='#tab-1']").removeClass("active");
+    $("a[href='#tab-2']").addClass("active");
+    $("#tab-1").removeClass("active");
+    $("#tab-2").addClass("active");
+    ShowList(2);
+    </script>
+@elseif(isset($_GET['editDataOutsite']))
+    <script type="text/javascript">
+    //console.log("masuk");
+    $("a[href='#tab-1']").removeClass("active");
+    $("a[href='#tab-2']").addClass("active");
+    $("#tab-1").removeClass("active");
+    $("#tab-2").addClass("active");
+    ShowList(2);
+    </script>
+@elseif(isset($_GET['addDataTheraphy']))
+    <script type="text/javascript">
+    $("a[href='#tab-1']").removeClass("active");
+    $("a[href='#tab-3']").addClass("active");
+    $("#tab-1").removeClass("active");
+    $("#tab-3").addClass("active");
+    ShowList(3);
+    </script>
+@elseif(isset($_GET['editDataTheraphy']))
+    <script type="text/javascript">
+    $("a[href='#tab-1']").removeClass("active");
+    $("a[href='#tab-3']").addClass("active");
+    $("#tab-1").removeClass("active");
+    $("#tab-3").addClass("active");
+    ShowList(3);
+    </script>
+@endif
 @endsection

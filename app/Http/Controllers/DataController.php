@@ -735,7 +735,7 @@ class DataController extends Controller
                         ['data_therapies.active', true],
                         ['data_therapies.branch_id', $user->branch_id]
                     ])
-                    ->orWhere('data_therapies.phone', 'like', "%{$this->Encr($request->keywordDataOutsite)}%")
+                    ->orWhere('data_therapies.phone', 'like', "%{$this->Encr($request->keywordDataTherapy)}%")
                     ->where([
 		                ['data_therapies.active', true],
 		                ['data_therapies.branch_id', $user->branch_id]
@@ -785,7 +785,7 @@ class DataController extends Controller
 
             $data_therapies->appends($request->only('keywordDataTherapy'));
             //dd($data_therapies);
-        }
+        }   
         // return response()->json(['success'=> $data_therapies]);
         return $data_therapies;
         //dd($data_therapies);
@@ -1480,8 +1480,7 @@ class DataController extends Controller
             //masukin data ke data_outsite
             $DataOutsiteNya = DataOutsite::find($id->id);
             $DataOutsiteNya->fill($data)->save();
-
-            return response()->json(['success'=>'Berhasil !!']);
+            return response()->json(['OutsideSuccess'=>'Berhasil !!']);
         }
     }
 
@@ -1973,7 +1972,7 @@ class DataController extends Controller
         $output = implode(";", array('code', 'registration_date','name','address','phone','birth_date'));
         foreach ($table as $row) {
             $output .= "\n";
-            $output .=  implode(";", array($row['code'], $row['registration_date'], $row['name'], $row['address'], $row['phone'], $row['birth_date'])); // append each row
+            $output .=  implode(";", array($row['code'], $row['registration_date'], $row['name'], $row['address'], $this->Decr($row['phone']), $row['birth_date'])); // append each row
         }
         $headers = array(
                 'Content-Type' => 'text/csv',
@@ -1999,7 +1998,7 @@ class DataController extends Controller
         $output = implode(";", array('code', 'registration_date','name','phone','branch','location','type_cust'));
         foreach ($table as $row) {
             $output .= "\n";
-            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->phone, $row->branch, $row->location, $row->type_cust)); // append each row
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $this->Decr($row->phone), $row->branch, $row->location, $row->type_cust)); // append each row
         }
         $headers = array(
                 'Content-Type' => 'text/csv',
@@ -2024,7 +2023,7 @@ class DataController extends Controller
         $output = implode(";", array('code', 'registration_date','name','address','phone','province','district','branch','type_cust'));
         foreach ($table as $row) {
             $output .= "\n";
-            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->address, $row->phone, $row->province, $row->district, $row->branch, $row->type_cust)); // append each row
+            $output .=  implode(";", array($row->code, $row->registration_date, $row->name, $row->address, $this->Decr($row->phone), $row->province, $row->district, $row->branch, $row->type_cust)); // append each row
         }
         $headers = array(
                 'Content-Type' => 'text/csv',
