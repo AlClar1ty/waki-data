@@ -1396,6 +1396,7 @@ class DataController extends Controller
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
 
+        $id=DataOutsite::where('code', $request->code)->first();
 
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
@@ -1405,7 +1406,7 @@ class DataController extends Controller
             'registration_year' => 'required',
             'phone' => [
                 'required',
-                Rule::unique('data_outsites')->whereNot('id', $request->get('id'))->where('active', 1),
+                Rule::unique('data_outsites')->whereNot('id', $id->id )->where('active', 1),
             ],
             // 'province' => 'required',
             // 'district' => 'required',
@@ -1425,7 +1426,7 @@ class DataController extends Controller
                 'registration_year' => 'required',
                 'phone' => [
                     'required',
-                    Rule::unique('data_outsites')->whereNot('id', $request->get('id'))->where('active', 1),
+                    Rule::unique('data_outsites')->whereNot('id',  $id->id )->where('active', 1),
                 ],
                 // 'province' => 'required',
                 // 'district' => 'required',
@@ -1493,6 +1494,8 @@ class DataController extends Controller
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
 
+        $id=DataTherapy::where('code', $request->code)->first();
+
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'address' => 'required',
@@ -1502,7 +1505,7 @@ class DataController extends Controller
             'registration_year' => 'required',
             'phone' => [
                 'required',
-                Rule::unique('data_therapies')->whereNot('id', $request->get('id'))->where('active', 1),
+                Rule::unique('data_therapies')->whereNot('id', $id->id )->where('active', 1),
             ],
             // 'province' => 'required',
             // 'district' => 'required',
@@ -1552,12 +1555,14 @@ class DataController extends Controller
         if ($request->has('phone') && $request->phone != null)
             $request->merge(['phone'=> ($this->Encr($request->phone))]);
 
+        $id=Mpc::where('code', $request->code)->first();
+
         $validator = \Validator::make($request->all(), [
             'name' => 'required',
             'ktp' => 'required',
             'code' => [
                 'required',
-                Rule::unique('mpcs')->whereNot('id', $request->get('id'))->where('active', 1),
+                Rule::unique('mpcs')->whereNot('id', $id->id )->where('active', 1),
             ],
             'address' => 'required',
             'gender' => 'required',
@@ -1565,7 +1570,7 @@ class DataController extends Controller
             'birth_date' => 'required',
             'phone' => [
                 'required',
-                Rule::unique('mpcs')->whereNot('id', $request->get('id'))->where('active', 1),
+                Rule::unique('mpcs')->whereNot('id',  $id->id )->where('active', 1),
             ],
             'province' => 'required',
             'district' => 'required',

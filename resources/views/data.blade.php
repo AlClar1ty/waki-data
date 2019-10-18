@@ -4162,7 +4162,6 @@
                     $("#modal-Notification").find("p#txt-notification").html("<div class=\"alert alert-success\">The Data Out-Site has been CHANGED successfully</div>");
                     $("#modal-Notification").modal("show");
                     $URL_GLOBAL = "{{route('data')}}"+"?editDataOutsite=true";
-                    // {{route('delete_dataoutsite', ['id' => $dataOutsite->id])}}
                 }
 
                 document.getElementById("btn-confirmUpdateDataOutsite").innerHTML = "SAVE";
